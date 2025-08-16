@@ -11,7 +11,8 @@ const tajawal = Tajawal({
 export const metadata: Metadata = {
   title: 'الكابتن للخدمات والحلول الهندسية',
   description: 'شركة الكابتن للخدمات والحلول الهندسية - نقدم أفضل الخدمات الهندسية والاستشارات',
-    generator: 'v0.app'
+  generator: 'v0.app',
+  viewport: 'width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes',
 }
 
 export default function RootLayout({
@@ -21,6 +22,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ar" dir="rtl">
+      <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+      </head>
       <body className={tajawal.className}>{children}</body>
     </html>
   )

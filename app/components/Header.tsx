@@ -130,9 +130,14 @@ export default function Header() {
 
                   {activeDropdown === index && (
                     <div 
-                      className="absolute top-full right-0 mt-2 w-56 bg-white rounded-xl shadow-2xl border border-gray-100 overflow-hidden transform origin-top scale-95 animate-in slide-in-from-top-2 duration-200"
+                      className="absolute top-full right-0 mt-2 w-56 bg-white rounded-xl shadow-2xl border border-gray-100 overflow-hidden transform origin-top scale-95 animate-in slide-in-from-top-2 duration-200 z-50"
                       onMouseEnter={() => handleMouseEnter(index)}
                       onMouseLeave={handleMouseLeave}
+                      style={{
+                        right: 'auto',
+                        left: '0',
+                        minWidth: '14rem'
+                      }}
                     >
                       <div className="p-2">
                         {menu.items.map((item, itemIndex) => (

@@ -1,3 +1,12 @@
+/* CSS Reset and Base Fixes */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 /* Tajawal Font Import */
 @font-face {
   font-family: 'Tajawal';
@@ -35,6 +44,53 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Fix for Vercel deployment scaling issues */
+html {
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  zoom: 1;
+  overflow-x: hidden;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  zoom: 1;
+  overflow-x: hidden;
+  min-height: 100vh;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+/* Ensure proper container behavior */
+.container {
+  width: 100%;
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  box-sizing: border-box;
+}
+
+@media (min-width: 640px) {
+  .container {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
 @layer base {
   * {
     @apply border-border;
@@ -48,6 +104,30 @@
 /* RTL Support */
 html[dir="rtl"] {
   direction: rtl;
+  text-align: right;
+}
+
+/* Ensure proper spacing for RTL */
+html[dir="rtl"] .container {
+  direction: rtl;
+}
+
+/* Fix for header positioning */
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Fix for dropdown positioning */
+.dropdown-menu {
+  position: absolute;
+  z-index: 1000;
+  box-sizing: border-box;
 }
 
 /* Custom scrollbar for RTL */
@@ -78,4 +158,17 @@ html[dir="rtl"] ::-webkit-scrollbar-thumb:hover {
   --primary-green: #16a34a;
   --primary-green-dark: #15803d;
   --primary-green-light: #22c55e;
+}
+
+/* Additional responsive fixes */
+@media (max-width: 1024px) {
+  html {
+    font-size: 14px;
+  }
+}
+
+@media (min-width: 1025px) {
+  html {
+    font-size: 16px;
+  }
 }
