@@ -1,11 +1,70 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
+
+const getPageUrl = (menuTitle: string, item: string): string => {
+  const urlMap: { [key: string]: { [key: string]: string } } = {
+    "من نحن": {
+      "نبذة عن الشركة": "/about-us/company",
+      "رؤيتنا ورسالتنا": "/about-us/vision",
+      "فريق العمل": "/about-us/team",
+      "شركاؤنا": "/about-us/partners"
+    },
+    "الخدمات": {
+      "الاستشارات الهندسية": "/services/engineering-consultations",
+      "التصميم المعماري": "/services/architectural-design",
+      "الإشراف على التنفيذ": "/services/construction-supervision",
+      "دراسات الجدوى": "/services/feasibility-studies"
+    },
+    "الدورات": {
+      "دورات هندسية": "/courses/engineering",
+      "دورات إدارية": "/courses/management",
+      "دورات تقنية": "/courses/technical",
+      "دورات متخصصة": "/courses/specialized"
+    },
+    "الاعتمادات": {
+      "الشهادات المهنية": "/accreditations/professional",
+      "التراخيص": "/accreditations/licenses",
+      "العضويات": "/accreditations/memberships",
+      "الجوائز": "/accreditations/awards"
+    },
+    "الاستشارات": {
+      "استشارات هندسية": "/consultations/engineering",
+      "استشارات فنية": "/consultations/technical",
+      "استشارات إدارية": "/consultations/management",
+      "دراسات متخصصة": "/consultations/specialized"
+    },
+    "المشاريع": {
+      "مشاريع منجزة": "/projects/completed",
+      "مشاريع قيد التنفيذ": "/projects/ongoing",
+      "مشاريع مستقبلية": "/projects/future",
+      "دراسات حالة": "/projects/case-studies"
+    },
+    "التعاون": {
+      "فرص الشراكة": "/cooperation/partnership",
+      "التوظيف": "/cooperation/careers",
+      "التدريب": "/cooperation/training",
+      "المبادرات": "/cooperation/initiatives"
+    },
+    "اتصل بنا": {
+      "معلومات التواصل": "/contact/info",
+      "موقعنا": "/contact/location",
+      "طلب استشارة": "/contact/consultation",
+      "الشكاوى والاقتراحات": "/contact/feedback"
+    }
+  }
+
+  return urlMap[menuTitle]?.[item] || "/"
+}
 import Link from "next/link"
 import { ChevronDown, Menu, X, ChevronLeft } from "lucide-react"
 import Image from "next/image"
 
 const menuItems = [
+  {
+    title: "من نحن",
+    items: ["نبذة عن الشركة", "رؤيتنا ورسالتنا", "فريق العمل", "شركاؤنا"],
+  },
   {
     title: "الخدمات",
     items: ["الاستشارات الهندسية", "التصميم المعماري", "الإشراف على التنفيذ", "دراسات الجدوى"],
@@ -15,12 +74,24 @@ const menuItems = [
     items: ["دورات هندسية", "دورات إدارية", "دورات تقنية", "دورات متخصصة"],
   },
   {
-    title: "المشاريع",
-    items: ["مشاريع سكنية", "مشاريع تجارية", "مشاريع صناعية", "مشاريع حكومية"],
+    title: "الاعتمادات",
+    items: ["الشهادات المهنية", "التراخيص", "العضويات", "الجوائز"],
   },
   {
-    title: "من نحن",
-    items: ["تاريخ الشركة", "فريق العمل", "رؤيتنا ورسالتنا", "شهاداتنا"],
+    title: "الاستشارات",
+    items: ["استشارات هندسية", "استشارات فنية", "استشارات إدارية", "دراسات متخصصة"],
+  },
+  {
+    title: "المشاريع",
+    items: ["مشاريع منجزة", "مشاريع قيد التنفيذ", "مشاريع مستقبلية", "دراسات حالة"],
+  },
+  {
+    title: "التعاون",
+    items: ["فرص الشراكة", "التوظيف", "التدريب", "المبادرات"],
+  },
+  {
+    title: "اتصل بنا",
+    items: ["معلومات التواصل", "موقعنا", "طلب استشارة", "الشكاوى والاقتراحات"],
   },
 ]
 
@@ -74,16 +145,14 @@ export default function Header() {
   return (
     <>
       <header className={`fixed top-0 w-full z-[100] transition-all duration-300 ${
-        isScrolled ? 'bg-green-600 shadow-lg' : 'bg-transparent'
+        isScrolled ? 'bg-white shadow-lg' : 'bg-transparent'
       }`}>
         <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between h-20">
+          <div className="flex items-center justify-between h-16 lg:h-20">
             {/* Logo and Title - Right side */}
             <Link href="/" className="group flex items-center gap-4 hover:opacity-90 transition-all duration-300 hover:scale-105">
               <div className="relative w-16 h-16 flex-shrink-0">
-                <div className={`absolute inset-0 flex items-center justify-center transition-all duration-300 ${
-                  isScrolled ? 'bg-white rounded-full' : ''
-                }`}>
+                <div className="absolute inset-0 flex items-center justify-center transition-all duration-300">
                   <div className="relative w-11 h-11 group-hover:rotate-12 transition-transform duration-300">
                     <Image
                       src="/new logo.png"
@@ -95,17 +164,21 @@ export default function Header() {
                 </div>
               </div>
               <div className={`hidden md:block transition-opacity duration-300 ${isScrolled ? 'opacity-100' : 'opacity-0'}`}>
-                <h1 className="text-lg font-bold text-white group-hover:text-green-100 transition-colors duration-300">
+                <h1 className={`text-base font-bold transition-colors duration-300 whitespace-nowrap ${
+                  isScrolled ? 'text-black group-hover:text-gray-700' : 'text-white group-hover:text-green-100'
+                }`}>
                   الكابتن للخدمات والحلول الهندسية
                 </h1>
-                <h2 className="text-lg text-gray-100 group-hover:text-green-200 transition-colors duration-300">
+                <h2 className={`text-base font-bold transition-colors duration-300 whitespace-nowrap ${
+                  isScrolled ? 'text-black group-hover:text-gray-700' : 'text-white group-hover:text-green-100'
+                }`}>
                   Captain Engineering Services & Solutions
                 </h2>
               </div>
             </Link>
 
             {/* Desktop Navigation Menu - Left side */}
-            <nav className="hidden md:flex items-center space-x-reverse space-x-8">
+            <nav className="hidden md:flex items-center space-x-reverse space-x-2">
               {menuItems.map((menu, index) => (
                 <div
                   key={index}
@@ -113,17 +186,17 @@ export default function Header() {
                   onMouseEnter={() => handleMouseEnter(index)}
                   onMouseLeave={handleMouseLeave}
                 >
-                  <button className={`relative flex items-center text-lg font-bold transition-all duration-300 hover:scale-105 ${
-                    isScrolled ? 'text-white hover:text-green-100' : 'text-green-600 hover:text-green-700'
+                  <button className={`relative flex items-center text-base font-bold transition-all duration-300 hover:scale-105 whitespace-nowrap px-1.5 ${
+                    isScrolled ? 'text-black hover:text-gray-700' : 'text-green-600 hover:text-green-700'
                   }`}>
                     <span className="relative">
                       {menu.title}
                       {/* Animated underline on hover */}
-                      <span className={`absolute bottom-0 left-0 w-0 h-0.5 bg-current transition-all duration-300 group-hover:w-full ${
-                        isScrolled ? 'bg-green-100' : 'bg-green-700'
+                      <span className={`absolute bottom-0 left-0 w-0 h-0.5 transition-all duration-300 group-hover:w-full ${
+                        isScrolled ? 'bg-gray-700' : 'bg-green-700'
                       }`}></span>
                     </span>
-                    <ChevronDown className={`mr-1 h-4 w-4 transition-transform duration-300 group-hover:rotate-180 ${
+                    <ChevronDown className={`mr-0.5 h-3 w-3 transition-transform duration-300 group-hover:rotate-180 ${
                       activeDropdown === index ? 'rotate-180' : ''
                     }`} />
                   </button>
@@ -143,7 +216,7 @@ export default function Header() {
                         {menu.items.map((item, itemIndex) => (
                           <Link
                             key={itemIndex}
-                            href="#"
+                            href={getPageUrl(menu.title, item)}
                             className="group/item block px-4 py-3 text-sm text-gray-700 hover:bg-gradient-to-r hover:from-green-50 hover:to-green-100 hover:text-green-700 rounded-lg transition-all duration-300 hover:translate-x-1 hover:shadow-md relative overflow-hidden"
                           >
                             <span className="relative z-10">{item}</span>
@@ -236,11 +309,11 @@ export default function Header() {
                   {activeMobileDropdown === index && (
                     <div className="bg-gradient-to-b from-green-50 to-white animate-in slide-in-from-top-2 duration-200">
                       {menu.items.map((item, itemIndex) => (
-                        <Link
-                          key={itemIndex}
-                          href="#"
-                          onClick={toggleMobileMenu}
-                          className="group/item block px-8 py-3 text-sm text-gray-600 hover:bg-green-100 hover:text-green-700 border-r-2 border-transparent hover:border-green-500 transition-all duration-300 hover:translate-x-2 relative overflow-hidden"
+                                                  <Link
+                            key={itemIndex}
+                            href={getPageUrl(menu.title, item)}
+                            onClick={toggleMobileMenu}
+                            className="group/item block px-8 py-3 text-sm text-gray-600 hover:bg-green-100 hover:text-green-700 border-r-2 border-transparent hover:border-green-500 transition-all duration-300 hover:translate-x-2 relative overflow-hidden"
                         >
                           <span className="relative z-10">{item}</span>
                           {/* Mobile background effect */}

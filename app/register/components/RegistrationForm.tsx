@@ -30,8 +30,8 @@ export default function RegistrationForm() {
   }
 
   return (
-    <div className="bg-white rounded-lg shadow-lg p-8">
-      <form onSubmit={handleSubmit} className="space-y-6">
+    <div className="bg-white rounded-3xl shadow-2xl p-8 border-2 border-green-100 backdrop-blur-sm bg-opacity-95 hover:shadow-green-100/20 transition-all duration-300">
+      <form onSubmit={handleSubmit} className="space-y-6 relative">
         {/* Name */}
         <div>
           <Label htmlFor="name" className="text-right block mb-2">
@@ -44,7 +44,7 @@ export default function RegistrationForm() {
             onChange={(e) => handleChange('name', e.target.value)}
             placeholder="أدخل اسمك الكامل"
             required
-            className="text-right"
+            className="text-right !font-normal placeholder:font-normal placeholder:text-gray-400"
           />
         </div>
 
@@ -60,7 +60,9 @@ export default function RegistrationForm() {
             onChange={(e) => handleChange('email', e.target.value)}
             placeholder="example@email.com"
             required
-            className="text-right"
+            dir="ltr"
+            style={{ fontFamily: 'inherit' }}
+            className="text-right !font-normal !placeholder:text-[#6B7280] !placeholder:opacity-100 !placeholder:font-normal"
           />
         </div>
 
@@ -76,7 +78,9 @@ export default function RegistrationForm() {
             onChange={(e) => handleChange('phone', e.target.value)}
             placeholder="+218 XX XXX XXXX"
             required
-            className="text-right"
+            dir="ltr"
+            style={{ fontFamily: 'inherit' }}
+            className="text-right !font-normal !placeholder:text-[#6B7280] !placeholder:opacity-100 !placeholder:font-normal"
           />
         </div>
 
@@ -86,10 +90,10 @@ export default function RegistrationForm() {
             الدورة أو الخدمة المطلوبة *
           </Label>
           <Select onValueChange={(value) => handleChange('service', value)}>
-            <SelectTrigger className="text-right">
-              <SelectValue placeholder="اختر الخدمة المطلوبة" />
+            <SelectTrigger className="text-right flex-row-reverse">
+                             <SelectValue placeholder="اختر الخدمة المطلوبة" className="text-right !font-normal text-gray-400" />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent dir="rtl" className="w-full" align="end">
               <SelectItem value="consultation">الاستشارات الهندسية</SelectItem>
               <SelectItem value="design">التصميم المعماري</SelectItem>
               <SelectItem value="supervision">الإشراف على التنفيذ</SelectItem>
@@ -106,10 +110,10 @@ export default function RegistrationForm() {
             نوع المؤسسة *
           </Label>
           <Select onValueChange={(value) => handleChange('organizationType', value)}>
-            <SelectTrigger className="text-right">
-              <SelectValue placeholder="اختر نوع المؤسسة" />
+            <SelectTrigger className="text-right flex-row-reverse">
+                             <SelectValue placeholder="اختر نوع المؤسسة" className="text-right !font-normal text-gray-400" />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent dir="rtl" className="w-full" align="end">
               <SelectItem value="company">شركة</SelectItem>
               <SelectItem value="university">جامعة</SelectItem>
               <SelectItem value="institute">معهد</SelectItem>
@@ -130,7 +134,7 @@ export default function RegistrationForm() {
             value={formData.certificate}
             onChange={(e) => handleChange('certificate', e.target.value)}
             placeholder="أدخل الشهادة المطلوبة (اختياري)"
-            className="text-right"
+            className="text-right !font-normal placeholder:font-normal placeholder:text-gray-400"
           />
         </div>
 
@@ -145,7 +149,7 @@ export default function RegistrationForm() {
             onChange={(e) => handleChange('notes', e.target.value)}
             placeholder="أضف أي ملاحظات أو متطلبات خاصة..."
             rows={4}
-            className="text-right"
+            className="text-right !font-normal placeholder:font-normal placeholder:text-gray-400"
           />
         </div>
 

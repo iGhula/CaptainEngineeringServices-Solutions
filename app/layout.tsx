@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import { Tajawal } from 'next/font/google'
 import './globals.css'
+import Header from './components/Header'
+import Footer from './components/Footer'
 
 const tajawal = Tajawal({ 
   subsets: ['arabic'],
@@ -22,12 +24,15 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ar" dir="rtl">
-      <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes" />
-        <meta name="format-detection" content="telephone=no" />
-        <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-      </head>
-      <body className={tajawal.className}>{children}</body>
+      <body className={tajawal.className}>
+        <div className="flex flex-col min-h-screen">
+          <Header />
+          <main className="flex-grow">
+            {children}
+          </main>
+          <Footer />
+        </div>
+      </body>
     </html>
   )
 }
