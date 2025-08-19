@@ -1,9 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  telemetry: false,
-  experimental: {
-    instrumentationHook: false
-  }
+  // Clean configuration without deprecated options
 }
 
 export default nextConfig
