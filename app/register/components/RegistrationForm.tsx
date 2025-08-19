@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { supabase } from '@/lib/supabase'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -18,11 +19,83 @@ export default function RegistrationForm() {
     notes: ''
   })
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const clearForm = () => {
+    setFormData({
+      name: '',
+      email: '',
+      phone: '',
+      service: '',
+      organizationType: '',
+      certificate: '',
+      notes: ''
+    })
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    console.log('Form submitted:', formData)
-    // Handle form submission here
-    alert('تم إرسال طلب التسجيل بنجاح!')
+    
+    try {
+      // First check if user already exists
+      const { data: existingUser, error: checkError } = await supabase
+        .from('users')
+        .select('id')
+        .eq('email', formData.email)
+        .single()
+
+      if (checkError && checkError.code !== 'PGRST116') {
+        // PGRST116 means no rows found, which is what we want
+        throw checkError
+      }
+
+      if (existingUser) {
+        alert('البريد الإلكتروني مسجل مسبقاً. الرجاء استخدام بريد إلكتروني آخر أو تسجيل الدخول.')
+        // Clear only the email field for duplicate email errors
+        setFormData(prev => ({ ...prev, email: '' }))
+        return
+      }
+
+      // Insert new user
+      const { error } = await supabase.from('users').insert({
+        full_name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        company: formData.organizationType,
+        job_title: formData.certificate,
+        interests: [formData.service],
+        country: 'Libya',
+        city: '',
+        notes: formData.notes,
+        created_at: new Date().toISOString()
+      })
+
+      if (error) {
+        if (error.code === '23505') {
+          // Unique constraint violation
+          alert('البريد الإلكتروني مسجل مسبقاً. الرجاء استخدام بريد إلكتروني آخر.')
+          // Clear only the email field for duplicate email errors
+          setFormData(prev => ({ ...prev, email: '' }))
+        } else {
+          throw error
+        }
+        return
+      }
+
+      alert('تم إرسال طلب التسجيل بنجاح!')
+      clearForm()
+    } catch (error: any) {
+      console.error('Error inserting user:', error)
+      
+      // Handle specific error types
+      if (error.code === '23505') {
+        alert('البريد الإلكتروني مسجل مسبقاً. الرجاء استخدام بريد إلكتروني آخر.')
+        // Clear only the email field for duplicate email errors
+        setFormData(prev => ({ ...prev, email: '' }))
+      } else if (error.message) {
+        alert(`حدث خطأ أثناء التسجيل: ${error.message}`)
+      } else {
+        alert('حدث خطأ أثناء التسجيل. الرجاء المحاولة مرة أخرى.')
+      }
+    }
   }
 
   const handleChange = (field: string, value: string) => {
@@ -68,20 +141,28 @@ export default function RegistrationForm() {
 
         {/* Phone */}
         <div>
-          <Label htmlFor="phone" className="text-right block mb-2">
-            رقم الهاتف *
-          </Label>
+          <Label htmlFor="phone">رقم الهاتف</Label>
           <Input
             id="phone"
+            name="phone"
             type="tel"
             value={formData.phone}
-            onChange={(e) => handleChange('phone', e.target.value)}
-            placeholder="+218 XX XXX XXXX"
+            onChange={(e) => {
+              // Only allow digits and limit to 10 characters
+              const value = e.target.value.replace(/\D/g, '').slice(0, 10)
+              handleChange('phone', value)
+            }}
+            placeholder="218XXXXXXXXX"
             required
             dir="ltr"
+            pattern="[0-9]{10}"
+            title="يجب أن يكون رقم الهاتف 10 أرقام"
             style={{ fontFamily: 'inherit' }}
             className="text-right !font-normal !placeholder:text-[#6B7280] !placeholder:opacity-100 !placeholder:font-normal"
           />
+          <p className="text-xs text-gray-500 mt-1">
+            أدخل رقم الهاتف بدون + أو مسافات (مثال: 218912345678)
+          </p>
         </div>
 
         {/* Service */}
@@ -140,9 +221,7 @@ export default function RegistrationForm() {
 
         {/* Notes */}
         <div>
-          <Label htmlFor="notes" className="text-right block mb-2">
-            ملاحظات إضافية
-          </Label>
+          <Label htmlFor="notes">ملاحظات إضافية</Label>
           <Textarea
             id="notes"
             value={formData.notes}

@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import { Metadata, Viewport } from 'next'
 import { Tajawal } from 'next/font/google'
 import './globals.css'
 import Header from './components/Header'
@@ -14,7 +14,13 @@ export const metadata: Metadata = {
   title: 'الكابتن للخدمات والحلول الهندسية',
   description: 'شركة الكابتن للخدمات والحلول الهندسية - نقدم أفضل الخدمات الهندسية والاستشارات',
   generator: 'v0.app',
-  viewport: 'width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes',
+}
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  userScalable: true,
 }
 
 export default function RootLayout({
