@@ -37,8 +37,8 @@ export const testDatabaseAccess = async () => {
     // Test 3: Try to find our specific user
     const { data: test3, error: error3 } = await supabase
       .from('admin_users')
-      .select('email, full_name')
-      .eq('email', 'ibrahim.ghula@gmail.com')
+      .select('username, full_name')
+      .eq('username', 'admin')
     
     console.log('Test 3 - Find specific user:', { test3, error3 })
     
@@ -49,11 +49,11 @@ export const testDatabaseAccess = async () => {
   }
 }
 
-export const signIn = async (email: string, password: string) => {
+export const signIn = async (username: string, password: string) => {
   try {
     console.log('=== LOGIN ATTEMPT START ===')
-    console.log('Attempting login with:', { email, password })
-    console.log('Email length:', email.length)
+    console.log('Attempting login with:', { username, password })
+    console.log('Username length:', username.length)
     console.log('Password length:', password.length)
     
     // First, let's try to find the user without password check to see if the table is accessible
@@ -61,7 +61,7 @@ export const signIn = async (email: string, password: string) => {
     const { data: userCheck, error: userCheckError } = await supabase
       .from('admin_users')
       .select('*')
-      .eq('email', email.trim())
+      .eq('username', username.trim())
       .single()
 
     console.log('User check result:', { userCheck, userCheckError })
@@ -72,8 +72,8 @@ export const signIn = async (email: string, password: string) => {
     }
 
     if (!userCheck) {
-      console.log('No user found with this email')
-      throw new Error('Invalid email or password')
+      console.log('No user found with this username')
+      throw new Error('Invalid username or password')
     }
 
     console.log('User found in database:', userCheck)
@@ -84,7 +84,7 @@ export const signIn = async (email: string, password: string) => {
     // Now check if password matches
     if (userCheck.password_hash !== password.trim()) {
       console.log('Password does not match')
-      throw new Error('Invalid email or password')
+      throw new Error('Invalid username or password')
     }
 
     if (!userCheck.is_active) {
@@ -98,6 +98,7 @@ export const signIn = async (email: string, password: string) => {
     const session = {
       user: {
         id: userCheck.id,
+        username: userCheck.username,
         email: userCheck.email,
         full_name: userCheck.full_name,
         is_admin: true

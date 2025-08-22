@@ -43,13 +43,13 @@ export default function AdminLayout({
     }
 
     checkAuth()
-  }, [router, isLoginPage])
+  }, [isLoginPage])
 
   const handleLogout = async () => {
     await signOut()
     // Redirect to home page instead of login page
     router.push('/')
-    router.refresh()
+    // Removed router.refresh() - this was causing re-renders
   }
 
   // For login page, just render the children without any layout
@@ -97,12 +97,6 @@ export default function AdminLayout({
               <div className="flex items-center">
                 <h1 className="text-2xl font-bold text-gray-900">لوحة التحكم</h1>
               </div>
-              <button
-                onClick={handleLogout}
-                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors duration-200"
-              >
-                تسجيل الخروج والعودة للرئيسية
-              </button>
             </div>
           </div>
         </div>

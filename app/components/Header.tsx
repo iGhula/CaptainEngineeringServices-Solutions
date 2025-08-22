@@ -1,6 +1,8 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
+import { useRouter } from "next/navigation"
+import { isAuthenticated, signOut } from '@/lib/auth'
 
 const getPageUrl = (menuTitle: string, item: string): string => {
   const urlMap: { [key: string]: { [key: string]: string } } = {
@@ -100,15 +102,40 @@ export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [activeMobileDropdown, setActiveMobileDropdown] = useState<number | null>(null)
   const [isScrolled, setIsScrolled] = useState(false)
+  const [isAdmin, setIsAdmin] = useState(false)
   const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+  const router = useRouter()
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10)
     }
 
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
+    // Check if user is admin - only run on client side
+    const checkAdminStatus = () => {
+      try {
+        const authenticated = isAuthenticated()
+        setIsAdmin(authenticated)
+      } catch (error) {
+        console.error('Header: Authentication check error:', error)
+        setIsAdmin(false)
+      }
+    }
+
+    // Only run on client side
+    if (typeof window !== 'undefined') {
+      // Check immediately
+      checkAdminStatus()
+      
+      // Also check periodically to catch any changes
+      const interval = setInterval(checkAdminStatus, 2000)
+      
+      window.addEventListener('scroll', handleScroll)
+      return () => {
+        window.removeEventListener('scroll', handleScroll)
+        clearInterval(interval)
+      }
+    }
   }, [])
 
   const handleMouseEnter = (index: number) => {
@@ -133,6 +160,13 @@ export default function Header() {
     setActiveMobileDropdown(activeMobileDropdown === index ? null : index)
   }
 
+  const handleAdminLogout = async () => {
+    await signOut()
+    setIsAdmin(false)
+    router.push('/')
+    router.refresh()
+  }
+
   // Cleanup timeout on unmount
   useEffect(() => {
     return () => {
@@ -144,9 +178,86 @@ export default function Header() {
 
   return (
     <>
-      <header className={`fixed top-0 w-full z-[100] transition-all duration-300 ${
+      {isAdmin && (
+        <header className="fixed top-0 w-full z-[100] bg-white shadow-lg border-b-2 border-green-500">
+          <div className="container mx-auto px-4">
+            <div className="flex items-center justify-between h-16">
+              <div className="flex items-center space-x-3 space-x-reverse">
+                <button
+                  onClick={() => router.push('/admin')}
+                  className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors duration-200"
+                >
+                  لوحة الإدارة
+                </button>
+                <button
+                  onClick={() => router.push('/')}
+                  className="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors duration-200"
+                >
+                  الصفحة الرئيسية
+                </button>
+                <button
+                  onClick={handleAdminLogout}
+                  className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors duration-200"
+                >
+                  تسجيل الخروج
+                </button>
+              </div>
+
+              {/* Mobile menu button for admin */}
+              <div className="md:hidden">
+                <button
+                  onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                  className="text-black hover:text-gray-700 transition-colors duration-200"
+                >
+                  {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+                </button>
+              </div>
+            </div>
+          </div>
+        </header>
+      )}
+
+      {/* Mobile Admin Menu */}
+      {isAdmin && isMobileMenuOpen && (
+        <div className="fixed top-20 w-full z-[99] md:hidden bg-white shadow-lg border-t border-gray-200">
+          <div className="px-4 py-4 space-y-3">
+            <button
+              onClick={() => {
+                router.push('/admin')
+                setIsMobileMenuOpen(false)
+              }}
+              className="w-full text-right px-4 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors duration-200 font-medium"
+            >
+              لوحة الإدارة
+            </button>
+            <button
+              onClick={() => {
+                router.push('/')
+                setIsMobileMenuOpen(false)
+              }}
+              className="w-full text-right px-4 py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors duration-200 font-medium"
+            >
+              الصفحة الرئيسية
+            </button>
+            <button
+              onClick={() => {
+                handleAdminLogout()
+                setIsMobileMenuOpen(false)
+              }}
+              className="w-full text-right px-4 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors duration-200 font-medium"
+            >
+              تسجيل الخروج
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Spacer for admin bar */}
+      {isAdmin && <div className="h-16"></div>}
+
+      <header className={`fixed w-full z-[100] transition-all duration-300 ${
         isScrolled ? 'bg-white shadow-lg' : 'bg-transparent'
-      }`}>
+      } ${isAdmin ? 'top-20' : 'top-0'}`}>
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16 lg:h-20">
             {/* Logo and Title - Right side */}

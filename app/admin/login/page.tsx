@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
 export default function AdminLogin() {
-  const [email, setEmail] = useState('')
+  const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -31,14 +31,14 @@ export default function AdminLogin() {
     setError(null)
 
     try {
-      const { data, error } = await signIn(email.trim(), password.trim())
+      const { data, error } = await signIn(username.trim(), password.trim())
       
       if (error) {
         throw error
       }
 
       if (data?.user && data.user.is_admin) {
-        console.log('Login successful for admin:', data.user.email)
+        console.log('Login successful for admin:', data.user.username)
         router.push('/admin')
         router.refresh()
       } else {
@@ -69,16 +69,16 @@ export default function AdminLogin() {
           )}
           <div className="rounded-md shadow-sm space-y-4">
             <div>
-              <Label htmlFor="email">البريد الإلكتروني</Label>
+              <Label htmlFor="username">اسم المستخدم</Label>
               <Input
-                id="email"
-                name="email"
-                type="email"
+                id="username"
+                name="username"
+                type="text"
                 required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
                 className="text-right"
-                placeholder="أدخل البريد الإلكتروني"
+                placeholder="أدخل اسم المستخدم"
                 dir="rtl"
               />
             </div>

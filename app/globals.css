@@ -160,6 +160,100 @@ html[dir="rtl"] ::-webkit-scrollbar-thumb:hover {
   --primary-green-light: #22c55e;
 }
 
+/* Custom toast styling for website consistency */
+.toast-success {
+  background: linear-gradient(135deg, var(--primary-green), var(--primary-green-dark)) !important;
+  border-color: var(--primary-green-dark) !important;
+  color: white !important;
+  box-shadow: 0 10px 25px rgba(22, 163, 74, 0.3) !important;
+  border-radius: 12px !important;
+  font-family: 'Tajawal', sans-serif !important;
+  animation: slideInRight 0.3s ease-out !important;
+  transform: translateX(0) !important;
+}
+
+.toast-success .toast-title {
+  color: white !important;
+  font-weight: 700 !important;
+  font-size: 16px !important;
+  margin-bottom: 4px !important;
+}
+
+.toast-success .toast-description {
+  color: rgba(255, 255, 255, 0.9) !important;
+  font-size: 14px !important;
+  line-height: 1.5 !important;
+}
+
+.toast-error {
+  background: linear-gradient(135deg, #dc2626, #b91c1c) !important;
+  border-color: #b91c1c !important;
+  color: white !important;
+  box-shadow: 0 10px 25px rgba(220, 38, 38, 0.3) !important;
+  border-radius: 12px !important;
+  font-family: 'Tajawal', sans-serif !important;
+  animation: slideInRight 0.3s ease-out !important;
+  transform: translateX(0) !important;
+}
+
+.toast-error .toast-title {
+  color: white !important;
+  font-weight: 700 !important;
+  font-size: 16px !important;
+  margin-bottom: 4px !important;
+}
+
+.toast-error .toast-description {
+  color: rgba(255, 255, 255, 0.9) !important;
+  font-size: 14px !important;
+  line-height: 1.5 !important;
+}
+
+/* Toast animations */
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* RTL toast animations */
+html[dir="rtl"] .toast-success,
+html[dir="rtl"] .toast-error {
+  animation: slideInLeft 0.3s ease-out !important;
+}
+
+/* RTL toast positioning */
+html[dir="rtl"] .toast-viewport {
+  left: 0 !important;
+  right: auto !important;
+}
+
+html[dir="rtl"] .toast {
+  text-align: right !important;
+}
+
+/* RTL toast viewport positioning */
+html[dir="rtl"] [data-radix-toast-viewport] {
+  left: 0 !important;
+  right: auto !important;
+}
+
 /* Additional responsive fixes */
 @media (max-width: 1024px) {
   html {

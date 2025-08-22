@@ -7,8 +7,10 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { useToast } from '@/hooks/use-toast'
 
 export default function RegistrationForm() {
+  const { toast } = useToast()
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -48,7 +50,11 @@ export default function RegistrationForm() {
       }
 
       if (existingUser) {
-        alert('البريد الإلكتروني مسجل مسبقاً. الرجاء استخدام بريد إلكتروني آخر أو تسجيل الدخول.')
+        toast({
+          title: "خطأ في التسجيل",
+          description: "البريد الإلكتروني مسجل مسبقاً. الرجاء استخدام بريد إلكتروني آخر أو تسجيل الدخول.",
+          className: "toast-error",
+        })
         // Clear only the email field for duplicate email errors
         setFormData(prev => ({ ...prev, email: '' }))
         return
@@ -62,8 +68,6 @@ export default function RegistrationForm() {
         company: formData.organizationType,
         job_title: formData.certificate,
         interests: [formData.service],
-        country: 'Libya',
-        city: '',
         notes: formData.notes,
         created_at: new Date().toISOString()
       })
@@ -71,7 +75,11 @@ export default function RegistrationForm() {
       if (error) {
         if (error.code === '23505') {
           // Unique constraint violation
-          alert('البريد الإلكتروني مسجل مسبقاً. الرجاء استخدام بريد إلكتروني آخر.')
+          toast({
+            title: "خطأ في التسجيل",
+            description: "البريد الإلكتروني مسجل مسبقاً. الرجاء استخدام بريد إلكتروني آخر.",
+            className: "toast-error",
+          })
           // Clear only the email field for duplicate email errors
           setFormData(prev => ({ ...prev, email: '' }))
         } else {
@@ -80,20 +88,36 @@ export default function RegistrationForm() {
         return
       }
 
-      alert('تم إرسال طلب التسجيل بنجاح!')
+      toast({
+        title: "تم التسجيل بنجاح!",
+        description: "تم إرسال طلب التسجيل بنجاح! سنتواصل معك قريباً.",
+        className: "toast-success",
+      })
       clearForm()
     } catch (error: any) {
       console.error('Error inserting user:', error)
       
       // Handle specific error types
       if (error.code === '23505') {
-        alert('البريد الإلكتروني مسجل مسبقاً. الرجاء استخدام بريد إلكتروني آخر.')
+        toast({
+          title: "خطأ في التسجيل",
+          description: "البريد الإلكتروني مسجل مسبقاً. الرجاء استخدام بريد إلكتروني آخر.",
+          className: "toast-error",
+        })
         // Clear only the email field for duplicate email errors
         setFormData(prev => ({ ...prev, email: '' }))
       } else if (error.message) {
-        alert(`حدث خطأ أثناء التسجيل: ${error.message}`)
+        toast({
+          title: "خطأ في التسجيل",
+          description: `حدث خطأ أثناء التسجيل: ${error.message}`,
+          className: "toast-error",
+        })
       } else {
-        alert('حدث خطأ أثناء التسجيل. الرجاء المحاولة مرة أخرى.')
+        toast({
+          title: "خطأ في التسجيل",
+          description: "حدث خطأ أثناء التسجيل. الرجاء المحاولة مرة أخرى.",
+          className: "toast-error",
+        })
       }
     }
   }
@@ -152,7 +176,7 @@ export default function RegistrationForm() {
               const value = e.target.value.replace(/\D/g, '').slice(0, 10)
               handleChange('phone', value)
             }}
-            placeholder="218XXXXXXXXX"
+            placeholder="09XXXXXXXX"
             required
             dir="ltr"
             pattern="[0-9]{10}"
@@ -161,7 +185,7 @@ export default function RegistrationForm() {
             className="text-right !font-normal !placeholder:text-[#6B7280] !placeholder:opacity-100 !placeholder:font-normal"
           />
           <p className="text-xs text-gray-500 mt-1">
-            أدخل رقم الهاتف بدون + أو مسافات (مثال: 218912345678)
+            أدخل رقم الهاتف بدون مسافات
           </p>
         </div>
 
