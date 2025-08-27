@@ -8,21 +8,21 @@ const getPageUrl = (menuTitle: string, item: string): string => {
   const urlMap: { [key: string]: { [key: string]: string } } = {
     "من نحن": {
       "نبذة عن الشركة": "/about-us/company",
-      "رؤيتنا ورسالتنا": "/about-us/vision",
-      "فريق العمل": "/about-us/team",
-      "شركاؤنا": "/about-us/partners"
+      "رؤيتنا ورسالتنا": "/about-us/vision"
     },
     "الخدمات": {
-      "الاستشارات الهندسية": "/services/engineering-consultations",
-      "التصميم المعماري": "/services/architectural-design",
-      "الإشراف على التنفيذ": "/services/construction-supervision",
+      "الاستشارات": "/services/engineering-consultations",
+      "الدورات والتدريب": "/courses",
+      "خدمات الطيران والمطارات": "/services/aviation-airports",
+      "الإشراف والتطوير والتصميم": "/services/construction-supervision",
       "دراسات الجدوى": "/services/feasibility-studies"
     },
     "الدورات": {
       "دورات هندسية": "/courses/engineering",
+      "دورات المطار": "/courses/airport",
       "دورات إدارية": "/courses/management",
-      "دورات تقنية": "/courses/technical",
-      "دورات متخصصة": "/courses/specialized"
+      "دورات الطيران": "/courses/aviation",
+      "التدريب": "/courses/training"
     },
     "الاعتمادات": {
       "الشهادات المهنية": "/accreditations/professional",
@@ -30,29 +30,21 @@ const getPageUrl = (menuTitle: string, item: string): string => {
       "العضويات": "/accreditations/memberships",
       "الجوائز": "/accreditations/awards"
     },
-    "الاستشارات": {
-      "استشارات هندسية": "/consultations/engineering",
-      "استشارات فنية": "/consultations/technical",
-      "استشارات إدارية": "/consultations/management",
-      "دراسات متخصصة": "/consultations/specialized"
-    },
     "المشاريع": {
       "مشاريع منجزة": "/projects/completed",
       "مشاريع قيد التنفيذ": "/projects/ongoing",
-      "مشاريع مستقبلية": "/projects/future",
-      "دراسات حالة": "/projects/case-studies"
+      "مشاريع مستقبلية": "/projects/future"
     },
     "التعاون": {
       "فرص الشراكة": "/cooperation/partnership",
       "التوظيف": "/cooperation/careers",
-      "التدريب": "/cooperation/training",
       "المبادرات": "/cooperation/initiatives"
     },
     "اتصل بنا": {
       "معلومات التواصل": "/contact/info",
       "موقعنا": "/contact/location",
       "طلب استشارة": "/contact/consultation",
-      "الشكاوى والاقتراحات": "/contact/feedback"
+      "الشكوى والاقتراحات": "/contact/feedback"
     }
   }
 
@@ -65,35 +57,31 @@ import Image from "next/image"
 const menuItems = [
   {
     title: "من نحن",
-    items: ["نبذة عن الشركة", "رؤيتنا ورسالتنا", "فريق العمل", "شركاؤنا"],
+    items: ["نبذة عن الشركة", "رؤيتنا ورسالتنا"],
   },
   {
     title: "الخدمات",
-    items: ["الاستشارات الهندسية", "التصميم المعماري", "الإشراف على التنفيذ", "دراسات الجدوى"],
+    items: ["الاستشارات", "الدورات والتدريب", "خدمات الطيران والمطارات", "الإشراف والتطوير والتصميم", "دراسات الجدوى"],
   },
   {
     title: "الدورات",
-    items: ["دورات هندسية", "دورات إدارية", "دورات تقنية", "دورات متخصصة"],
+    items: ["دورات هندسية", "دورات المطار", "دورات إدارية", "دورات الطيران", "التدريب"],
   },
   {
     title: "الاعتمادات",
     items: ["الشهادات المهنية", "التراخيص", "العضويات", "الجوائز"],
   },
   {
-    title: "الاستشارات",
-    items: ["استشارات هندسية", "استشارات فنية", "استشارات إدارية", "دراسات متخصصة"],
-  },
-  {
     title: "المشاريع",
-    items: ["مشاريع منجزة", "مشاريع قيد التنفيذ", "مشاريع مستقبلية", "دراسات حالة"],
+    items: ["مشاريع منجزة", "مشاريع قيد التنفيذ", "مشاريع مستقبلية"],
   },
   {
     title: "التعاون",
-    items: ["فرص الشراكة", "التوظيف", "التدريب", "المبادرات"],
+    items: ["فرص الشراكة", "التوظيف", "المبادرات"],
   },
   {
     title: "اتصل بنا",
-    items: ["معلومات التواصل", "موقعنا", "طلب استشارة", "الشكاوى والاقتراحات"],
+    items: ["معلومات التواصل", "موقعنا", "طلب استشارة", "الشكوى والاقتراحات"],
   },
 ]
 
@@ -202,54 +190,9 @@ export default function Header() {
                   تسجيل الخروج
                 </button>
               </div>
-
-              {/* Mobile menu button for admin */}
-              <div className="md:hidden">
-                <button
-                  onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                  className="text-black hover:text-gray-700 transition-colors duration-200"
-                >
-                  {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-                </button>
-              </div>
             </div>
           </div>
         </header>
-      )}
-
-      {/* Mobile Admin Menu */}
-      {isAdmin && isMobileMenuOpen && (
-        <div className="fixed top-20 w-full z-[99] md:hidden bg-white shadow-lg border-t border-gray-200">
-          <div className="px-4 py-4 space-y-3">
-            <button
-              onClick={() => {
-                router.push('/admin')
-                setIsMobileMenuOpen(false)
-              }}
-              className="w-full text-right px-4 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors duration-200 font-medium"
-            >
-              لوحة الإدارة
-            </button>
-            <button
-              onClick={() => {
-                router.push('/')
-                setIsMobileMenuOpen(false)
-              }}
-              className="w-full text-right px-4 py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors duration-200 font-medium"
-            >
-              الصفحة الرئيسية
-            </button>
-            <button
-              onClick={() => {
-                handleAdminLogout()
-                setIsMobileMenuOpen(false)
-              }}
-              className="w-full text-right px-4 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors duration-200 font-medium"
-            >
-              تسجيل الخروج
-            </button>
-          </div>
-        </div>
       )}
 
       {/* Spacer for admin bar */}
@@ -257,7 +200,7 @@ export default function Header() {
 
       <header className={`fixed w-full z-[100] transition-all duration-300 ${
         isScrolled ? 'bg-white shadow-lg' : 'bg-transparent'
-      } ${isAdmin ? 'top-20' : 'top-0'}`}>
+      } ${isAdmin ? 'top-20' : 'top-0'} ${isMobileMenuOpen ? 'opacity-0 pointer-events-none' : 'opacity-100 pointer-events-auto'}`}>
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16 lg:h-20">
             {/* Logo and Title - Right side */}
@@ -274,14 +217,14 @@ export default function Header() {
                   </div>
                 </div>
               </div>
-              <div className={`hidden md:block transition-opacity duration-300 ${isScrolled ? 'opacity-100' : 'opacity-0'}`}>
+              <div className={`hidden md:block transition-opacity duration-300 ${isScrolled ? 'opacity-100' : 'opacity-100'}`}>
                 <h1 className={`text-base font-bold transition-colors duration-300 whitespace-nowrap ${
-                  isScrolled ? 'text-black group-hover:text-gray-700' : 'text-white group-hover:text-green-100'
+                  isScrolled ? 'text-black group-hover:text-gray-700' : 'text-green-600 group-hover:text-green-700'
                 }`}>
                   الكابتن للخدمات والحلول الهندسية
                 </h1>
                 <h2 className={`text-base font-bold transition-colors duration-300 whitespace-nowrap ${
-                  isScrolled ? 'text-black group-hover:text-gray-700' : 'text-white group-hover:text-green-100'
+                  isScrolled ? 'text-black group-hover:text-gray-700' : 'text-green-600 group-hover:text-green-700'
                 }`}>
                   Captain Engineering Services & Solutions
                 </h2>
@@ -349,7 +292,7 @@ export default function Header() {
               <button
                 onClick={toggleMobileMenu}
                 className={`p-2 transition-all duration-300 hover:scale-110 hover:rotate-12 ${
-                  isScrolled ? 'text-white hover:text-green-100' : 'text-green-600 hover:text-green-700'
+                  isScrolled ? 'text-black hover:text-green-600' : 'text-green-600 hover:text-green-700'
                 }`}
                 aria-label="فتح القائمة"
               >
@@ -373,20 +316,7 @@ export default function Header() {
       >
         <div className="flex flex-col h-full">
           {/* Mobile Sidebar Header */}
-          <div className="flex items-center justify-between p-4 border-b border-gray-200">
-            <Link
-              href="/"
-              onClick={toggleMobileMenu}
-              className="group flex items-center hover:opacity-80 transition-all duration-300 hover:scale-105"
-            >
-              <Image
-                src="/new logo.png"
-                alt="الكابتن للخدمات والحلول الهندسية"
-                width={40}
-                height={40}
-                className="object-contain group-hover:rotate-12 transition-transform duration-300"
-              />
-            </Link>
+          <div className="flex items-center justify-end p-4 border-b border-gray-200">
             <button
               onClick={toggleMobileMenu}
               className="text-gray-700 hover:text-green-600 p-2 transition-all duration-300 hover:scale-110 hover:rotate-90"
@@ -420,11 +350,11 @@ export default function Header() {
                   {activeMobileDropdown === index && (
                     <div className="bg-gradient-to-b from-green-50 to-white animate-in slide-in-from-top-2 duration-200">
                       {menu.items.map((item, itemIndex) => (
-                                                  <Link
-                            key={itemIndex}
-                            href={getPageUrl(menu.title, item)}
-                            onClick={toggleMobileMenu}
-                            className="group/item block px-8 py-3 text-sm text-gray-600 hover:bg-green-100 hover:text-green-700 border-r-2 border-transparent hover:border-green-500 transition-all duration-300 hover:translate-x-2 relative overflow-hidden"
+                        <Link
+                          key={itemIndex}
+                          href={getPageUrl(menu.title, item)}
+                          onClick={toggleMobileMenu}
+                          className="group/item block px-8 py-3 text-sm text-gray-600 hover:bg-green-100 hover:text-green-700 border-r-2 border-transparent hover:border-green-500 transition-all duration-300 hover:translate-x-2 relative overflow-hidden"
                         >
                           <span className="relative z-10">{item}</span>
                           {/* Mobile background effect */}

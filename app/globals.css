@@ -91,6 +91,39 @@ body {
   }
 }
 
+/* Right-aligned dropdown placeholders for Arabic text */
+[data-radix-select-trigger] [data-placeholder] {
+  text-align: right !important;
+  direction: rtl !important;
+}
+
+[data-radix-select-trigger] span {
+  text-align: right !important;
+  direction: rtl !important;
+}
+
+/* Ensure all select components are right-aligned */
+select, option {
+  text-align: right !important;
+  direction: rtl !important;
+}
+
+/* Force right alignment for dropdown trigger text */
+[data-radix-select-trigger] > span {
+  text-align: right !important;
+  direction: rtl !important;
+  width: 100% !important;
+  display: block !important;
+}
+
+/* Force right alignment for placeholder text */
+[data-radix-select-trigger] [data-placeholder] {
+  text-align: right !important;
+  direction: rtl !important;
+  width: 100% !important;
+  display: block !important;
+}
+
 @layer base {
   * {
     @apply border-border;

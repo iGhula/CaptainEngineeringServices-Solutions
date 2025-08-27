@@ -3,13 +3,12 @@ import Image from 'next/image'
 import { Phone, Mail, MapPin, Facebook, Twitter, Youtube } from 'lucide-react'
 
 const footerLinks = [
-  { title: 'من نحن', href: '/about' },
+  { title: 'من نحن', href: '/about-us/company' },
   { title: 'الخدمات', href: '/services' },
   { title: 'الدورات', href: '/courses' },
-  { title: 'الاعتمادات', href: '/certifications' },
-  { title: 'الاستشارات', href: '/consultations' },
+  { title: 'الاعتمادات', href: '/accreditations' },
   { title: 'المشاريع', href: '/projects' },
-  { title: 'التعاون', href: '/partnerships' },
+  { title: 'التعاون', href: '/cooperation' },
   { title: 'اتصل بنا', href: '/contact' }
 ]
 
@@ -31,26 +30,26 @@ export default function Footer() {
                   />
                 </div>
                 <div>
-                  <h3 className="text-lg font-bold text-green-400">
+                  <h3 className="text-lg font-bold text-green-700">
                     الكابتن للخدمات والحلول الهندسية
                   </h3>
-                  <h4 className="text-lg text-gray-300">
+                  <h4 className="text-lg font-bold text-green-700">
                     Captain Engineering Services & Solutions
                   </h4>
                 </div>
               </div>
             </div>
             <div className="flex space-x-reverse space-x-4">
-              <Link href="#" className="text-gray-300 hover:text-green-400 transition-colors">
+              <Link href="https://www.facebook.com/share/1AQXXo8HoB/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-green-400 transition-colors">
                 <Facebook className="w-6 h-6" />
               </Link>
-              <Link href="#" className="text-gray-300 hover:text-green-400 transition-colors">
+              <Link href="https://x.com/c_eng_services?s=21&t=6chb9-jcaQqrElfQ9fs8qw" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-green-400 transition-colors">
                 <Twitter className="w-6 h-6" />
               </Link>
-              <Link href="#" className="text-gray-300 hover:text-green-400 transition-colors">
+              <Link href="https://youtube.com/@captain_eng_company?si=xNsIU4j8ARYWgZps" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-green-400 transition-colors">
                 <Youtube className="w-6 h-6" />
               </Link>
-              <Link href="#" className="text-gray-300 hover:text-green-400 transition-colors">
+              <Link href="https://www.tiktok.com/@Captainengservices_" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-green-400 transition-colors">
                 <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
                 </svg>
@@ -60,46 +59,72 @@ export default function Footer() {
 
           {/* Quick Links */}
           <div className="lg:col-span-2">
-            <h4 className="text-lg font-semibold mb-4 text-green-400">روابط سريعة</h4>
+            <h4 className="text-lg font-semibold mb-4 text-green-700">روابط سريعة</h4>
             <ul className="space-y-2">
-              {footerLinks.slice(0, 4).map((link, index) => (
-                <li key={index}>
-                  <Link href={link.href} className="text-gray-300 hover:text-green-400 transition-colors">
-                    {link.title}
-                  </Link>
-                </li>
-              ))}
+              <li>
+                <Link href="/about-us/company" className="text-gray-300 hover:text-green-400 transition-colors">
+                  من نحن
+                </Link>
+              </li>
+              <li>
+                <Link href="/services" className="text-gray-300 hover:text-green-400 transition-colors">
+                  الخدمات
+                </Link>
+              </li>
+              <li>
+                <Link href="/courses" className="text-gray-300 hover:text-green-400 transition-colors">
+                  الدورات
+                </Link>
+              </li>
+              <li>
+                <Link href="/accreditations" className="text-gray-300 hover:text-green-400 transition-colors">
+                  الاعتمادات
+                </Link>
+              </li>
             </ul>
           </div>
 
           {/* More Links */}
           <div className="lg:col-span-2">
-            <h4 className="text-lg font-semibold mb-4 text-green-400">خدماتنا</h4>
+            <h4 className="text-lg font-semibold mb-4 text-green-700">خدماتنا</h4>
             <ul className="space-y-2">
-              {footerLinks.slice(4).map((link, index) => (
-                <li key={index}>
-                  <Link href={link.href} className="text-gray-300 hover:text-green-400 transition-colors">
-                    {link.title}
-                  </Link>
-                </li>
-              ))}
+              <li>
+                <Link href="/projects" className="text-gray-300 hover:text-green-400 transition-colors">
+                  المشاريع
+                </Link>
+              </li>
+              <li>
+                <Link href="/cooperation" className="text-gray-300 hover:text-green-400 transition-colors">
+                  التعاون
+                </Link>
+              </li>
+              <li>
+                <Link href="/contact" className="text-gray-300 hover:text-green-400 transition-colors">
+                  اتصل بنا
+                </Link>
+              </li>
+              <li>
+                <Link href="/register" className="text-gray-300 hover:text-green-400 transition-colors">
+                  سجل معنا
+                </Link>
+              </li>
             </ul>
           </div>
 
           {/* Address and Contact */}
           <div className="lg:col-span-3">
-            <h4 className="text-lg font-semibold mb-4 text-green-400">العنوان</h4>
+            <h4 className="text-lg font-semibold mb-4 text-green-700">العنوان</h4>
             <ul className="space-y-4">
               <li className="flex items-center">
-                <MapPin className="w-5 h-5 text-green-400 ml-2" />
+                <MapPin className="w-5 h-5 text-white ml-2" />
                 <span className="text-gray-300">طرابلس, ليبيا</span>
               </li>
               <li className="flex items-center">
-                <Phone className="w-5 h-5 text-green-400 ml-2" />
+                <Phone className="w-5 h-5 text-white ml-2" />
                 <span className="text-gray-300" dir="ltr">+218 9X XXX XXXX</span>
               </li>
               <li className="flex items-center">
-                <Mail className="w-5 h-5 text-green-400 ml-2" />
+                <Mail className="w-5 h-5 text-white ml-2" />
                 <span className="text-gray-300">info@captain-engineering.com</span>
               </li>
             </ul>

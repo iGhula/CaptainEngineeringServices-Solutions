@@ -64,10 +64,33 @@ export default function ConsultationRequestPage() {
                       <SelectValue placeholder="اختر نوع الاستشارة" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="engineering">استشارة هندسية</SelectItem>
-                      <SelectItem value="architectural">تصميم معماري</SelectItem>
-                      <SelectItem value="supervision">إشراف على التنفيذ</SelectItem>
-                      <SelectItem value="technical">استشارة فنية</SelectItem>
+                      <SelectItem value="consultations">استشارات</SelectItem>
+                      <SelectItem value="supervision">إشراف</SelectItem>
+                      <SelectItem value="development-design">تطوير او تصميم</SelectItem>
+                      <SelectItem value="partnership">شراكة</SelectItem>
+                      <SelectItem value="training">تدريب</SelectItem>
+                      <SelectItem value="employment">توظيف</SelectItem>
+                      <SelectItem value="courses">دورات</SelectItem>
+                      <SelectItem value="management">إدارة</SelectItem>
+                      <SelectItem value="airport-services">خدمات المطار</SelectItem>
+                      <SelectItem value="aviation-services">خدمات طيران</SelectItem>
+                      <SelectItem value="other">أخرى</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div>
+                  <label className="block text-gray-800 font-bold mb-2">القسم المعني *</label>
+                  <Select>
+                    <SelectTrigger className="text-right">
+                      <SelectValue placeholder="اختر القسم المعني" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="engineering">قسم الهندسة</SelectItem>
+                      <SelectItem value="airport">قسم المطار</SelectItem>
+                      <SelectItem value="management">قسم الادارة</SelectItem>
+                      <SelectItem value="training">قسم التدريب</SelectItem>
+                      <SelectItem value="customer-service">خدمة العملاء</SelectItem>
+                      <SelectItem value="other">أخرى</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
