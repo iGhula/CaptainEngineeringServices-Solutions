@@ -30,10 +30,10 @@ export default function Footer() {
                   />
                 </div>
                 <div>
-                  <h3 className="text-lg font-bold text-green-700">
+                  <h3 className="text-lg font-bold text-white">
                     الكابتن للخدمات والحلول الهندسية
                   </h3>
-                  <h4 className="text-lg font-bold text-green-700">
+                  <h4 className="text-lg font-bold text-white">
                     Captain Engineering Services & Solutions
                   </h4>
                 </div>
@@ -59,7 +59,7 @@ export default function Footer() {
 
           {/* Quick Links */}
           <div className="lg:col-span-2">
-            <h4 className="text-lg font-semibold mb-4 text-green-700">روابط سريعة</h4>
+            <h4 className="text-xl font-semibold mb-4 text-green-700">روابط سريعة</h4>
             <ul className="space-y-2">
               <li>
                 <Link href="/about-us/company" className="text-gray-300 hover:text-green-400 transition-colors">
@@ -86,7 +86,7 @@ export default function Footer() {
 
           {/* More Links */}
           <div className="lg:col-span-2">
-            <h4 className="text-lg font-semibold mb-4 text-green-700">خدماتنا</h4>
+            <h4 className="text-xl font-semibold mb-4 text-green-700">خدماتنا</h4>
             <ul className="space-y-2">
               <li>
                 <Link href="/projects" className="text-gray-300 hover:text-green-400 transition-colors">
@@ -113,7 +113,7 @@ export default function Footer() {
 
           {/* Address and Contact */}
           <div className="lg:col-span-3">
-            <h4 className="text-lg font-semibold mb-4 text-green-700">العنوان</h4>
+            <h4 className="text-xl font-semibold mb-4 text-green-700">العنوان</h4>
             <ul className="space-y-4">
               <li className="flex items-center">
                 <MapPin className="w-5 h-5 text-white ml-2" />

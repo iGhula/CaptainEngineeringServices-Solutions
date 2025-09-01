@@ -73,9 +73,11 @@ export default function FeedbackPage() {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="engineering">قسم الهندسة</SelectItem>
-                    <SelectItem value="design">قسم التصميم</SelectItem>
-                    <SelectItem value="supervision">قسم الإشراف</SelectItem>
+                    <SelectItem value="airport">قسم المطار</SelectItem>
+                    <SelectItem value="management">قسم الادارة</SelectItem>
+                    <SelectItem value="training">قسم التدريب</SelectItem>
                     <SelectItem value="customer-service">خدمة العملاء</SelectItem>
+                    <SelectItem value="other">أخرى</SelectItem>
                   </SelectContent>
                 </Select>
               </div>

@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
-import { useRouter } from "next/navigation"
+import { useRouter, usePathname } from "next/navigation"
 import { isAuthenticated, signOut } from '@/lib/auth'
 
 const getPageUrl = (menuTitle: string, item: string): string => {
@@ -44,7 +44,7 @@ const getPageUrl = (menuTitle: string, item: string): string => {
       "معلومات التواصل": "/contact/info",
       "موقعنا": "/contact/location",
       "طلب استشارة": "/contact/consultation",
-      "الشكوى والاقتراحات": "/contact/feedback"
+      "الشكاوي والاقتراحات": "/contact/feedback"
     }
   }
 
@@ -81,7 +81,7 @@ const menuItems = [
   },
   {
     title: "اتصل بنا",
-    items: ["معلومات التواصل", "موقعنا", "طلب استشارة", "الشكوى والاقتراحات"],
+    items: ["معلومات التواصل", "موقعنا", "طلب استشارة", "الشكاوي والاقتراحات"],
   },
 ]
 
@@ -93,6 +93,10 @@ export default function Header() {
   const [isAdmin, setIsAdmin] = useState(false)
   const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null)
   const router = useRouter()
+  const pathname = usePathname()
+  
+  // Check if we're on the home page
+  const isHomePage = pathname === '/'
 
   useEffect(() => {
     const handleScroll = () => {
@@ -205,9 +209,9 @@ export default function Header() {
           <div className="flex items-center justify-between h-16 lg:h-20">
             {/* Logo and Title - Right side */}
             <Link href="/" className="group flex items-center gap-4 hover:opacity-90 transition-all duration-300 hover:scale-105">
-              <div className="relative w-16 h-16 flex-shrink-0">
+              <div className="relative w-20 h-20 flex-shrink-0">
                 <div className="absolute inset-0 flex items-center justify-center transition-all duration-300">
-                  <div className="relative w-11 h-11 group-hover:rotate-12 transition-transform duration-300">
+                  <div className="relative w-14 h-14 group-hover:rotate-12 transition-transform duration-300">
                     <Image
                       src="/new logo.png"
                       alt="الكابتن للخدمات والحلول الهندسية"
@@ -218,13 +222,21 @@ export default function Header() {
                 </div>
               </div>
               <div className={`hidden md:block transition-opacity duration-300 ${isScrolled ? 'opacity-100' : 'opacity-100'}`}>
-                <h1 className={`text-base font-bold transition-colors duration-300 whitespace-nowrap ${
-                  isScrolled ? 'text-black group-hover:text-gray-700' : 'text-green-600 group-hover:text-green-700'
+                <h1 className={`text-lg font-bold transition-colors duration-300 whitespace-nowrap ${
+                  isScrolled 
+                    ? 'text-black group-hover:text-gray-700' 
+                    : isHomePage 
+                      ? 'text-white group-hover:text-gray-200'
+                      : 'text-black group-hover:text-gray-700'
                 }`}>
                   الكابتن للخدمات والحلول الهندسية
                 </h1>
-                <h2 className={`text-base font-bold transition-colors duration-300 whitespace-nowrap ${
-                  isScrolled ? 'text-black group-hover:text-gray-700' : 'text-green-600 group-hover:text-green-700'
+                <h2 className={`text-lg font-bold transition-colors duration-300 whitespace-nowrap ${
+                  isScrolled 
+                    ? 'text-black group-hover:text-gray-700' 
+                    : isHomePage 
+                      ? 'text-white group-hover:text-gray-200'
+                      : 'text-black group-hover:text-gray-700'
                 }`}>
                   Captain Engineering Services & Solutions
                 </h2>
@@ -240,14 +252,22 @@ export default function Header() {
                   onMouseEnter={() => handleMouseEnter(index)}
                   onMouseLeave={handleMouseLeave}
                 >
-                  <button className={`relative flex items-center text-base font-bold transition-all duration-300 hover:scale-105 whitespace-nowrap px-1.5 ${
-                    isScrolled ? 'text-black hover:text-gray-700' : 'text-green-600 hover:text-green-700'
+                  <button className={`relative flex items-center text-lg font-bold transition-all duration-300 hover:scale-105 whitespace-nowrap px-1.5 ${
+                    isScrolled 
+                      ? 'text-black hover:text-gray-700' 
+                      : isHomePage 
+                        ? 'text-white hover:text-gray-200'
+                        : 'text-black hover:text-gray-700'
                   }`}>
                     <span className="relative">
                       {menu.title}
                       {/* Animated underline on hover */}
                       <span className={`absolute bottom-0 left-0 w-0 h-0.5 transition-all duration-300 group-hover:w-full ${
-                        isScrolled ? 'bg-gray-700' : 'bg-green-700'
+                        isScrolled 
+                          ? 'bg-gray-700' 
+                          : isHomePage 
+                            ? 'bg-white'
+                            : 'bg-gray-700'
                       }`}></span>
                     </span>
                     <ChevronDown className={`mr-0.5 h-3 w-3 transition-transform duration-300 group-hover:rotate-180 ${
@@ -292,7 +312,11 @@ export default function Header() {
               <button
                 onClick={toggleMobileMenu}
                 className={`p-2 transition-all duration-300 hover:scale-110 hover:rotate-12 ${
-                  isScrolled ? 'text-black hover:text-green-600' : 'text-green-600 hover:text-green-700'
+                  isScrolled 
+                    ? 'text-black hover:text-green-600' 
+                    : isHomePage 
+                      ? 'text-white hover:text-gray-200'
+                      : 'text-black hover:text-gray-700'
                 }`}
                 aria-label="فتح القائمة"
               >

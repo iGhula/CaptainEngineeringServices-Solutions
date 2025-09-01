@@ -3,6 +3,7 @@ import { Tajawal } from 'next/font/google'
 import './globals.css'
 import Header from './components/Header'
 import Footer from './components/Footer'
+import ScrollbarProvider from './components/ScrollbarProvider'
 import { Toaster } from '@/components/ui/toaster'
 
 const tajawal = Tajawal({ 
@@ -32,6 +33,7 @@ export default function RootLayout({
   return (
     <html lang="ar" dir="rtl">
       <body className={tajawal.className}>
+        <ScrollbarProvider />
         <div className="flex flex-col min-h-screen">
           <Header />
           <main className="flex-grow">
