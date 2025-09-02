@@ -53,6 +53,7 @@ html {
   overflow-x: hidden;
   font-size: 16px;
   line-height: 1.5;
+  scrollbar-gutter: stable;
 }
 
 body {
@@ -164,23 +165,22 @@ header {
 }
 
 /* Custom scrollbar system */
+/* Keep scrollbar present; fade the thumb via background-color transitions */
 ::-webkit-scrollbar {
   width: 12px;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.2s ease, visibility 0.2s ease;
 }
 
 ::-webkit-scrollbar-track {
   background: transparent;
 }
 
+/* Hidden state: fully transparent thumb */
 ::-webkit-scrollbar-thumb {
-  background: rgba(22, 163, 74, 0.6);
+  background: rgba(22, 163, 74, 0);
   border-radius: 6px;
   border: 2px solid transparent;
   background-clip: content-box;
-  transition: all 0.2s ease;
+  transition: background-color 220ms ease, box-shadow 220ms ease;
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -194,14 +194,17 @@ header {
 }
 
 /* Scrollbar visibility states */
-.scrollbar-visible::-webkit-scrollbar {
-  opacity: 1;
-  visibility: visible;
+/* Visible state: fade in via background-color */
+.scrollbar-visible::-webkit-scrollbar-thumb {
+  background: rgba(22, 163, 74, 0.7);
+  background-clip: content-box;
+  box-shadow: 0 0 0 0 rgba(22, 163, 74, 0);
 }
 
-.scrollbar-visible::-webkit-scrollbar-thumb {
-  background: rgba(22, 163, 74, 0.6);
-  background-clip: content-box;
+/* Slight emphasis when interacting */
+.scrollbar-visible::-webkit-scrollbar-thumb:hover {
+  background: rgba(22, 163, 74, 0.85);
+  box-shadow: 0 2px 6px rgba(22, 163, 74, 0.25);
 }
 
 /* RTL scrollbar positioning */
@@ -213,6 +216,12 @@ html[dir="rtl"] ::-webkit-scrollbar {
 * {
   scrollbar-width: none;
   scrollbar-color: transparent transparent;
+}
+
+/* Reveal scrollbar on Firefox with color change (opacity not supported) */
+html.scrollbar-visible {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(22, 163, 74, 0.6) transparent;
 }
 
 /* Scrollbar visibility for Firefox */

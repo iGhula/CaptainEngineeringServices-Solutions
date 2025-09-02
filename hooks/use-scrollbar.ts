@@ -4,6 +4,7 @@ export function useScrollbar() {
   const scrollbarTimeoutRef = useRef<NodeJS.Timeout | null>(null)
   const isScrollingRef = useRef(false)
   const lastScrollTimeRef = useRef(0)
+  const HIDE_DELAY_MS = 1500 // 1.5 seconds
 
   const showScrollbar = useCallback(() => {
     document.documentElement.classList.add('scrollbar-visible')
@@ -32,7 +33,7 @@ export function useScrollbar() {
     scrollbarTimeoutRef.current = setTimeout(() => {
       isScrollingRef.current = false
       hideScrollbar()
-    }, 800) // 0.8 seconds delay after scrolling stops
+    }, HIDE_DELAY_MS)
   }, [showScrollbar, hideScrollbar])
 
   const handleWheel = useCallback((e: WheelEvent) => {
@@ -47,7 +48,7 @@ export function useScrollbar() {
     // Hide scrollbar after wheel stops
     scrollbarTimeoutRef.current = setTimeout(() => {
       hideScrollbar()
-    }, 800)
+    }, HIDE_DELAY_MS)
   }, [showScrollbar, hideScrollbar])
 
   const handleTouchStart = useCallback(() => {
@@ -73,7 +74,7 @@ export function useScrollbar() {
     
     scrollbarTimeoutRef.current = setTimeout(() => {
       hideScrollbar()
-    }, 800)
+    }, HIDE_DELAY_MS)
   }, [hideScrollbar])
 
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
@@ -88,39 +89,38 @@ export function useScrollbar() {
       
       scrollbarTimeoutRef.current = setTimeout(() => {
         hideScrollbar()
-      }, 800)
+      }, HIDE_DELAY_MS)
     }
   }, [showScrollbar, hideScrollbar])
 
   const handleMouseMove = useCallback((e: MouseEvent) => {
-    const windowWidth = window.innerWidth
     const scrollbarWidth = 12 // Match the CSS scrollbar width
-    
-    // For RTL layout, scrollbar is on the left side
-    // Check if cursor is near the left edge (scrollbar area for RTL)
-    const isNearScrollbar = e.clientX < scrollbarWidth + 20 // 20px buffer
-    
+    const hoverBuffer = 40 // Slightly larger buffer for easier edge hover
+
+    // Only consider the right edge for hover-triggered visibility
+    const isNearScrollbar = e.clientX > (window.innerWidth - scrollbarWidth - hoverBuffer)
+
     if (isNearScrollbar) {
       showScrollbar()
-      
-      // Clear existing timeout
+
       if (scrollbarTimeoutRef.current) {
         clearTimeout(scrollbarTimeoutRef.current)
       }
-      
-      // Don't hide scrollbar while cursor is near it
+      // Hide even if cursor stays inside the page without scrolling
+      scrollbarTimeoutRef.current = setTimeout(() => {
+        hideScrollbar()
+      }, HIDE_DELAY_MS)
       return
     }
-    
-    // If cursor is not near scrollbar and not scrolling, hide after delay
+
     if (!isScrollingRef.current) {
       if (scrollbarTimeoutRef.current) {
         clearTimeout(scrollbarTimeoutRef.current)
       }
-      
+
       scrollbarTimeoutRef.current = setTimeout(() => {
         hideScrollbar()
-      }, 600) // 0.6 seconds delay after cursor moves away
+      }, HIDE_DELAY_MS)
     }
   }, [showScrollbar, hideScrollbar])
 
@@ -133,7 +133,7 @@ export function useScrollbar() {
       
       scrollbarTimeoutRef.current = setTimeout(() => {
         hideScrollbar()
-      }, 300)
+      }, HIDE_DELAY_MS)
     }
   }, [hideScrollbar])
 
