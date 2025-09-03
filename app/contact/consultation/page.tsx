@@ -1,12 +1,84 @@
 'use client'
 
+import { useState } from 'react'
 import Image from 'next/image'
 import PageTemplate from '@/app/components/PageTemplate'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Button } from '@/components/ui/button'
+import { supabase } from '@/lib/supabase'
+import { useToast } from '@/hooks/use-toast'
 
 export default function ConsultationRequestPage() {
+  const { toast } = useToast()
+  const [formData, setFormData] = useState({
+    fullName: '',
+    email: '',
+    phone: '',
+    consultationType: '',
+    department: '',
+    projectDetails: '',
+    budgetRange: '',
+    preferredTime: ''
+  })
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setIsSubmitting(true)
+    
+    try {
+      const { error } = await supabase
+        .from('consultation_requests')
+        .insert({
+          full_name: formData.fullName,
+          email: formData.email,
+          phone: formData.phone,
+          consultation_type: formData.consultationType,
+          department: formData.department,
+          project_details: formData.projectDetails,
+          budget_range: formData.budgetRange,
+          preferred_time: formData.preferredTime
+        })
+
+      if (error) {
+        throw error
+      }
+
+      toast({
+        title: "تم إرسال طلب الاستشارة بنجاح!",
+        description: "تم إرسال طلب الاستشارة بنجاح! سنتواصل معك قريباً.",
+        className: "toast-success",
+      })
+
+      // Clear form
+      setFormData({
+        fullName: '',
+        email: '',
+        phone: '',
+        consultationType: '',
+        department: '',
+        projectDetails: '',
+        budgetRange: '',
+        preferredTime: ''
+      })
+    } catch (error: any) {
+      console.error('Error submitting consultation request:', error)
+      toast({
+        title: "خطأ في إرسال الطلب",
+        description: "حدث خطأ أثناء إرسال طلب الاستشارة. الرجاء المحاولة مرة أخرى.",
+        className: "toast-error",
+      })
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
+  const handleChange = (field: string, value: string) => {
+    setFormData(prev => ({ ...prev, [field]: value }))
+  }
+
   return (
     <PageTemplate>
       <div className="container mx-auto px-4 py-12">
@@ -28,7 +100,7 @@ export default function ConsultationRequestPage() {
               نحن هنا لمساعدتك. املأ النموذج التالي وسيقوم فريقنا بالتواصل معك في أقرب وقت ممكن.
             </p>
 
-            <form className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-gray-800 font-bold mb-2">الاسم الكامل *</label>
@@ -36,6 +108,8 @@ export default function ConsultationRequestPage() {
                     type="text"
                     placeholder="أدخل اسمك الكامل"
                     className="text-right"
+                    value={formData.fullName}
+                    onChange={(e) => handleChange('fullName', e.target.value)}
                     required
                   />
                 </div>
@@ -45,6 +119,8 @@ export default function ConsultationRequestPage() {
                     type="email"
                     placeholder="example@email.com"
                     className="text-right"
+                    value={formData.email}
+                    onChange={(e) => handleChange('email', e.target.value)}
                     required
                   />
                 </div>
@@ -54,12 +130,14 @@ export default function ConsultationRequestPage() {
                     type="tel"
                     placeholder="+218 XX XXX XXXX"
                     className="text-right"
+                    value={formData.phone}
+                    onChange={(e) => handleChange('phone', e.target.value)}
                     required
                   />
                 </div>
                 <div>
                   <label className="block text-gray-800 font-bold mb-2">نوع الاستشارة *</label>
-                  <Select>
+                  <Select onValueChange={(value) => handleChange('consultationType', value)}>
                     <SelectTrigger className="text-right">
                       <SelectValue placeholder="اختر نوع الاستشارة" />
                     </SelectTrigger>
@@ -80,7 +158,7 @@ export default function ConsultationRequestPage() {
                 </div>
                 <div>
                   <label className="block text-gray-800 font-bold mb-2">القسم المعني *</label>
-                  <Select>
+                  <Select onValueChange={(value) => handleChange('department', value)}>
                     <SelectTrigger className="text-right">
                       <SelectValue placeholder="اختر القسم المعني" />
                     </SelectTrigger>
@@ -102,13 +180,15 @@ export default function ConsultationRequestPage() {
                   placeholder="اشرح تفاصيل مشروعك أو استفسارك..."
                   className="text-right"
                   rows={6}
+                  value={formData.projectDetails}
+                  onChange={(e) => handleChange('projectDetails', e.target.value)}
                   required
                 />
               </div>
 
               <div>
                 <label className="block text-gray-800 font-bold mb-2">الميزانية التقديرية</label>
-                <Select>
+                <Select onValueChange={(value) => handleChange('budgetRange', value)}>
                   <SelectTrigger className="text-right">
                     <SelectValue placeholder="اختر الميزانية التقديرية" />
                   </SelectTrigger>
@@ -123,7 +203,7 @@ export default function ConsultationRequestPage() {
 
               <div>
                 <label className="block text-gray-800 font-bold mb-2">الموعد المفضل للتواصل</label>
-                <Select>
+                <Select onValueChange={(value) => handleChange('preferredTime', value)}>
                   <SelectTrigger className="text-right">
                     <SelectValue placeholder="اختر الوقت المفضل للتواصل" />
                   </SelectTrigger>
@@ -145,12 +225,13 @@ export default function ConsultationRequestPage() {
               </div>
 
               <div className="flex justify-end">
-                <button
+                <Button
                   type="submit"
+                  disabled={isSubmitting}
                   className="bg-green-600 text-white px-8 py-3 rounded-lg hover:bg-green-700 transition-colors duration-300"
                 >
-                  إرسال الطلب
-                </button>
+                  {isSubmitting ? 'جاري الإرسال...' : 'إرسال الطلب'}
+                </Button>
               </div>
             </form>
           </div>

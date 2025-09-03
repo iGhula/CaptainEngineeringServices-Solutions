@@ -259,21 +259,21 @@ export default function AdminDashboard() {
                 {users.length === 0 ? (
                   <div className="text-center py-8 text-gray-500">لا يوجد مستخدمين مسجلين</div>
                 ) : (
-                                     <div className="overflow-x-auto" style={{ scrollbarWidth: 'thin', scrollbarColor: '#16a34a #f3f4f6' }}>
-                     <table className="min-w-full divide-y divide-gray-200" style={{ minWidth: '1200px' }}>
-                       <thead className="bg-gray-50">
-                         <tr>
-                           <th className="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">تاريخ ووقت التسجيل</th>
-                           <th className="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">ملاحظات إضافية</th>
-                           <th className="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">الشهادة</th>
-                           <th className="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">نوع المؤسسة</th>
-                           <th className="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">الدورة/الخدمة المطلوبة</th>
-                           <th className="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">رقم الهاتف</th>
-                           <th className="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">البريد الإلكتروني</th>
-                           <th className="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">الاسم الكامل</th>
-                           <th className="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">#</th>
-                         </tr>
-                       </thead>
+                  <div className="overflow-x-auto">
+                    <table className="min-w-full divide-y divide-gray-200">
+                      <thead className="bg-gray-50">
+                        <tr>
+                          <th className="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">#</th>
+                          <th className="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">الاسم الكامل</th>
+                          <th className="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">البريد الإلكتروني</th>
+                          <th className="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">رقم الهاتف</th>
+                          <th className="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">الدورة/الخدمة المطلوبة</th>
+                          <th className="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">نوع المؤسسة</th>
+                          <th className="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">الشهادة</th>
+                          <th className="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">ملاحظات إضافية</th>
+                          <th className="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">تاريخ ووقت التسجيل</th>
+                        </tr>
+                      </thead>
                       <tbody className="bg-white divide-y divide-gray-200">
                         {getCurrentPageData().map((user: User, index: number) => {
                           const rowNumber = (currentPage - 1) * usersPerPage + index + 1
@@ -303,42 +303,42 @@ export default function AdminDashboard() {
                             ? organizationArabicMap[user.company] || user.company
                             : 'غير محدد'
 
-                                                     return (
-                             <tr key={user.id} className="font-normal">
-                               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                 {user.created_at ? (
-                                   <div className="text-center">
-                                     <div className="font-medium text-gray-900">
-                                       {new Date(user.created_at).toLocaleDateString('ar-LY', {
-                                         year: 'numeric',
-                                         month: 'long',
-                                         day: 'numeric'
-                                       })}
-                                     </div>
-                                     <div className="text-xs text-gray-400 mt-1">
-                                       {new Date(user.created_at).toLocaleTimeString('ar-LY', {
-                                         hour: '2-digit',
-                                         minute: '2-digit',
-                                         second: '2-digit'
-                                       })}
-                                     </div>
-                                   </div>
-                                 ) : 'غير محدد'}
-                               </td>
-                               <td className="px-6 py-4 text-sm text-gray-500 max-w-xs">
-                                 <div className="truncate" title={user.notes || ''}>
-                                   {user.notes && user.notes.trim() !== '' ? user.notes : 'لا توجد ملاحظات'}
-                                 </div>
-                               </td>
-                               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{user.job_title || 'غير محدد'}</td>
-                               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{organizationText}</td>
-                               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{serviceText}</td>
-                               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{user.phone || 'غير محدد'}</td>
-                               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{user.email}</td>
-                               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{user.full_name || 'غير محدد'}</td>
-                               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{rowNumber}</td>
-                             </tr>
-                           )
+                          return (
+                            <tr key={user.id} className="font-normal">
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{rowNumber}</td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{user.full_name || 'غير محدد'}</td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{user.email}</td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{user.phone || 'غير محدد'}</td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{serviceText}</td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{organizationText}</td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{user.job_title || 'غير محدد'}</td>
+                              <td className="px-6 py-4 text-sm text-gray-500 max-w-xs">
+                                <div className="truncate" title={user.notes || ''}>
+                                  {user.notes && user.notes.trim() !== '' ? user.notes : 'لا توجد ملاحظات'}
+                                </div>
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                {user.created_at ? (
+                                  <div className="text-center">
+                                    <div className="font-medium text-gray-900">
+                                      {new Date(user.created_at).toLocaleDateString('ar-LY', {
+                                        year: 'numeric',
+                                        month: 'long',
+                                        day: 'numeric'
+                                      })}
+                                    </div>
+                                    <div className="text-xs text-gray-400 mt-1">
+                                      {new Date(user.created_at).toLocaleTimeString('ar-LY', {
+                                        hour: '2-digit',
+                                        minute: '2-digit',
+                                        second: '2-digit'
+                                      })}
+                                    </div>
+                                  </div>
+                                ) : 'غير محدد'}
+                              </td>
+                            </tr>
+                          )
                         })}
                       </tbody>
                     </table>
@@ -346,25 +346,25 @@ export default function AdminDashboard() {
                 )}
               </TabsContent>
 
-                             <TabsContent value="consultations" className="mt-6">
-                 {consultationRequests.length === 0 ? (
-                   <div className="text-center py-8 text-gray-500">لا توجد طلبات استشارة</div>
-                 ) : (
-                   <div className="overflow-x-auto" style={{ scrollbarWidth: 'thin', scrollbarColor: '#16a34a #f3f4f6' }}>
-                     <table className="min-w-full divide-y divide-gray-200" style={{ minWidth: '1200px' }}>
-                       <thead className="bg-gray-50">
-                         <tr>
-                           <th className="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">تاريخ الطلب</th>
-                           <th className="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">الوقت المفضل</th>
-                           <th className="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">الميزانية</th>
-                           <th className="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">القسم المعني</th>
-                           <th className="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">نوع الاستشارة</th>
-                           <th className="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">رقم الهاتف</th>
-                           <th className="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">البريد الإلكتروني</th>
-                           <th className="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">الاسم الكامل</th>
-                           <th className="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">#</th>
-                         </tr>
-                       </thead>
+              <TabsContent value="consultations" className="mt-6">
+                {consultationRequests.length === 0 ? (
+                  <div className="text-center py-8 text-gray-500">لا توجد طلبات استشارة</div>
+                ) : (
+                  <div className="overflow-x-auto">
+                    <table className="min-w-full divide-y divide-gray-200">
+                      <thead className="bg-gray-50">
+                        <tr>
+                          <th className="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">#</th>
+                          <th className="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">الاسم الكامل</th>
+                          <th className="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">البريد الإلكتروني</th>
+                          <th className="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">رقم الهاتف</th>
+                          <th className="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">نوع الاستشارة</th>
+                          <th className="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">القسم المعني</th>
+                          <th className="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">الميزانية</th>
+                          <th className="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">الوقت المفضل</th>
+                          <th className="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">تاريخ الطلب</th>
+                        </tr>
+                      </thead>
                       <tbody className="bg-white divide-y divide-gray-200">
                         {getCurrentPageData().map((request: ConsultationRequest, index: number) => {
                           const rowNumber = (currentPage - 1) * usersPerPage + index + 1
@@ -405,38 +405,38 @@ export default function AdminDashboard() {
                             'evening': 'مساءً (3:00 - 5:00)'
                           }
 
-                                                     return (
-                             <tr key={request.id} className="font-normal">
-                               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                 {request.created_at ? (
-                                   <div className="text-center">
-                                     <div className="font-medium text-gray-900">
-                                       {new Date(request.created_at).toLocaleDateString('ar-LY', {
-                                         year: 'numeric',
-                                         month: 'long',
-                                         day: 'numeric'
-                                       })}
-                                     </div>
-                                     <div className="text-xs text-gray-400 mt-1">
-                                       {new Date(request.created_at).toLocaleTimeString('ar-LY', {
-                                         hour: '2-digit',
-                                         minute: '2-digit',
-                                         second: '2-digit'
-                                       })}
-                                     </div>
-                                   </div>
-                                 ) : 'غير محدد'}
-                               </td>
-                               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{timeMap[request.preferred_time] || request.preferred_time || 'غير محدد'}</td>
-                               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{budgetMap[request.budget_range] || request.budget_range || 'غير محدد'}</td>
-                               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{departmentMap[request.department] || request.department}</td>
-                               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{consultationTypeMap[request.consultation_type] || request.consultation_type}</td>
-                               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{request.phone}</td>
-                               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{request.email}</td>
-                               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{request.full_name}</td>
-                               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{rowNumber}</td>
-                             </tr>
-                           )
+                          return (
+                            <tr key={request.id} className="font-normal">
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{rowNumber}</td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{request.full_name}</td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{request.email}</td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{request.phone}</td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{consultationTypeMap[request.consultation_type] || request.consultation_type}</td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{departmentMap[request.department] || request.department}</td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{budgetMap[request.budget_range] || request.budget_range || 'غير محدد'}</td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{timeMap[request.preferred_time] || request.preferred_time || 'غير محدد'}</td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                {request.created_at ? (
+                                  <div className="text-center">
+                                    <div className="font-medium text-gray-900">
+                                      {new Date(request.created_at).toLocaleDateString('ar-LY', {
+                                        year: 'numeric',
+                                        month: 'long',
+                                        day: 'numeric'
+                                      })}
+                                    </div>
+                                    <div className="text-xs text-gray-400 mt-1">
+                                      {new Date(request.created_at).toLocaleTimeString('ar-LY', {
+                                        hour: '2-digit',
+                                        minute: '2-digit',
+                                        second: '2-digit'
+                                      })}
+                                    </div>
+                                  </div>
+                                ) : 'غير محدد'}
+                              </td>
+                            </tr>
+                          )
                         })}
                       </tbody>
                     </table>
@@ -444,24 +444,24 @@ export default function AdminDashboard() {
                 )}
               </TabsContent>
 
-                             <TabsContent value="feedback" className="mt-6">
-                 {feedback.length === 0 ? (
-                   <div className="text-center py-8 text-gray-500">لا توجد رسائل شكاوى أو اقتراحات</div>
-                 ) : (
-                   <div className="overflow-x-auto" style={{ scrollbarWidth: 'thin', scrollbarColor: '#16a34a #f3f4f6' }}>
-                     <table className="min-w-full divide-y divide-gray-200" style={{ minWidth: '1000px' }}>
-                       <thead className="bg-gray-50">
-                         <tr>
-                           <th className="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">تاريخ الرسالة</th>
-                           <th className="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">الحالة</th>
-                           <th className="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">الأولوية</th>
-                           <th className="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">الموضوع</th>
-                           <th className="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">نوع الرسالة</th>
-                           <th className="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">البريد الإلكتروني</th>
-                           <th className="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">الاسم الكامل</th>
-                           <th className="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">#</th>
-                         </tr>
-                       </thead>
+              <TabsContent value="feedback" className="mt-6">
+                {feedback.length === 0 ? (
+                  <div className="text-center py-8 text-gray-500">لا توجد رسائل شكاوى أو اقتراحات</div>
+                ) : (
+                  <div className="overflow-x-auto">
+                    <table className="min-w-full divide-y divide-gray-200">
+                      <thead className="bg-gray-50">
+                        <tr>
+                          <th className="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">#</th>
+                          <th className="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">الاسم الكامل</th>
+                          <th className="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">البريد الإلكتروني</th>
+                          <th className="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">نوع الرسالة</th>
+                          <th className="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">الموضوع</th>
+                          <th className="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">الأولوية</th>
+                          <th className="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">الحالة</th>
+                          <th className="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">تاريخ الرسالة</th>
+                        </tr>
+                      </thead>
                       <tbody className="bg-white divide-y divide-gray-200">
                         {getCurrentPageData().map((item: Feedback, index: number) => {
                           const rowNumber = (currentPage - 1) * usersPerPage + index + 1
@@ -487,37 +487,37 @@ export default function AdminDashboard() {
                             'closed': 'مغلقة'
                           }
 
-                                                     return (
-                             <tr key={item.id} className="font-normal">
-                               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                 {item.created_at ? (
-                                   <div className="text-center">
-                                     <div className="font-medium text-gray-900">
-                                       {new Date(item.created_at).toLocaleDateString('ar-LY', {
-                                         year: 'numeric',
-                                         month: 'long',
-                                         day: 'numeric'
-                                       })}
-                                     </div>
-                                     <div className="text-xs text-gray-400 mt-1">
-                                       {new Date(item.created_at).toLocaleTimeString('ar-LY', {
-                                         hour: '2-digit',
-                                         minute: '2-digit',
-                                         second: '2-digit'
-                                       })}
-                                     </div>
-                                   </div>
-                                 ) : 'غير محدد'}
-                               </td>
-                               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{statusMap[item.status] || item.status}</td>
-                               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{priorityMap[item.priority] || item.priority}</td>
-                               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{item.subject}</td>
-                               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{feedbackTypeMap[item.feedback_type] || item.feedback_type}</td>
-                               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{item.email}</td>
-                               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{item.full_name}</td>
-                               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{rowNumber}</td>
-                             </tr>
-                           )
+                          return (
+                            <tr key={item.id} className="font-normal">
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{rowNumber}</td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{item.full_name}</td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{item.email}</td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{feedbackTypeMap[item.feedback_type] || item.feedback_type}</td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{item.subject}</td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{priorityMap[item.priority] || item.priority}</td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{statusMap[item.status] || item.status}</td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                {item.created_at ? (
+                                  <div className="text-center">
+                                    <div className="font-medium text-gray-900">
+                                      {new Date(item.created_at).toLocaleDateString('ar-LY', {
+                                        year: 'numeric',
+                                        month: 'long',
+                                        day: 'numeric'
+                                      })}
+                                    </div>
+                                    <div className="text-xs text-gray-400 mt-1">
+                                      {new Date(item.created_at).toLocaleTimeString('ar-LY', {
+                                        hour: '2-digit',
+                                        minute: '2-digit',
+                                        second: '2-digit'
+                                      })}
+                                    </div>
+                                  </div>
+                                ) : 'غير محدد'}
+                              </td>
+                            </tr>
+                          )
                         })}
                       </tbody>
                     </table>

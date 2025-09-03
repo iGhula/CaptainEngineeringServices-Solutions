@@ -53,43 +53,53 @@ export const signIn = async (username: string, password: string) => {
   try {
     console.log('=== LOGIN ATTEMPT START ===')
     console.log('Attempting login with:', { username, password })
-    console.log('Username length:', username.length)
-    console.log('Password length:', password.length)
     
-    // First, let's try to find the user without password check to see if the table is accessible
-    console.log('Step 1: Checking if we can access the admin_users table...')
+    // First, test database connectivity
+    console.log('Step 1: Testing database connectivity...')
+    const { data: connectivityTest, error: connectivityError } = await supabase
+      .from('admin_users')
+      .select('count')
+      .limit(1)
+
+    if (connectivityError) {
+      console.error('Database connectivity error:', connectivityError)
+      throw new Error(`Database connection failed: ${connectivityError.message}`)
+    }
+
+    console.log('Database connectivity test passed')
+    
+    // Now try to find the user
+    console.log('Step 2: Looking up user...')
     const { data: userCheck, error: userCheckError } = await supabase
       .from('admin_users')
-      .select('*')
+      .select('id, username, email, password_hash, full_name, is_active')
       .eq('username', username.trim())
-      .single()
+      .eq('is_active', true)
+      .maybeSingle()  // Use maybeSingle() instead of single() to handle no results gracefully
 
-    console.log('User check result:', { userCheck, userCheckError })
+    console.log('User lookup result:', { userCheck, userCheckError })
 
     if (userCheckError) {
-      console.log('Error accessing admin_users table:', userCheckError)
-      throw new Error(`Database access error: ${userCheckError.message}`)
+      console.error('User lookup error:', userCheckError)
+      throw new Error(`User lookup failed: ${userCheckError.message}`)
     }
 
     if (!userCheck) {
-      console.log('No user found with this username')
+      console.log('No active user found with this username')
       throw new Error('Invalid username or password')
     }
 
-    console.log('User found in database:', userCheck)
-    console.log('Stored password hash:', userCheck.password_hash)
-    console.log('Input password:', password.trim())
-    console.log('Password match:', userCheck.password_hash === password.trim())
+    console.log('User found:', { 
+      id: userCheck.id, 
+      username: userCheck.username, 
+      email: userCheck.email,
+      is_active: userCheck.is_active 
+    })
 
-    // Now check if password matches
+    // Check if password matches (simple comparison for now)
     if (userCheck.password_hash !== password.trim()) {
       console.log('Password does not match')
       throw new Error('Invalid username or password')
-    }
-
-    if (!userCheck.is_active) {
-      console.log('User account is not active')
-      throw new Error('Account is deactivated')
     }
 
     console.log('Authentication successful!')
@@ -108,7 +118,7 @@ export const signIn = async (username: string, password: string) => {
     // Store session in localStorage
     if (typeof window !== 'undefined') {
       localStorage.setItem('captain-engineering-admin-session', JSON.stringify(session))
-      console.log('Session stored in localStorage:', session)
+      console.log('Session stored in localStorage')
     }
 
     console.log('=== LOGIN ATTEMPT SUCCESS ===')
