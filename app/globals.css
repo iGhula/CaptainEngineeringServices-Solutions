@@ -125,6 +125,66 @@ select, option {
   display: block !important;
 }
 
+/* Right-align all dropdown content and items */
+[data-radix-select-content] {
+  text-align: right !important;
+  direction: rtl !important;
+}
+
+[data-radix-select-item] {
+  text-align: right !important;
+  direction: rtl !important;
+  justify-content: flex-start !important;
+  display: flex !important;
+  flex-direction: row-reverse !important;
+}
+
+[data-radix-select-item-indicator] {
+  margin-left: 0 !important;
+  margin-right: 8px !important;
+  order: 2 !important;
+}
+
+[data-radix-select-item-text] {
+  order: 1 !important;
+  text-align: right !important;
+  direction: rtl !important;
+}
+
+/* Additional specific targeting for dropdown items */
+[data-radix-select-content] [data-radix-select-item] {
+  text-align: right !important;
+  direction: rtl !important;
+  justify-content: flex-start !important;
+}
+
+[data-radix-select-content] [data-radix-select-item] span {
+  text-align: right !important;
+  direction: rtl !important;
+}
+
+/* More aggressive targeting for Radix Select items */
+[data-radix-select-content] [data-radix-select-item] {
+  text-align: right !important;
+  direction: rtl !important;
+  justify-content: flex-start !important;
+  padding-right: 8px !important;
+  padding-left: 0 !important;
+}
+
+[data-radix-select-content] [data-radix-select-item] * {
+  text-align: right !important;
+  direction: rtl !important;
+}
+
+/* Target the actual text content */
+[data-radix-select-content] [data-radix-select-item] > span {
+  text-align: right !important;
+  direction: rtl !important;
+  display: block !important;
+  width: 100% !important;
+}
+
 @layer base {
   * {
     @apply border-border;

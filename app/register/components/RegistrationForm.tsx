@@ -195,16 +195,16 @@ export default function RegistrationForm() {
             الدورة أو الخدمة المطلوبة *
           </Label>
           <Select onValueChange={(value) => handleChange('service', value)}>
-            <SelectTrigger className="text-right flex-row-reverse">
-                             <SelectValue placeholder="اختر الخدمة المطلوبة" className="text-right !font-normal text-gray-400" />
+            <SelectTrigger className="text-right">
+              <SelectValue placeholder="اختر الخدمة المطلوبة" />
             </SelectTrigger>
-            <SelectContent dir="rtl" className="w-full" align="end">
+            <SelectContent>
               <SelectItem value="consultation">الاستشارات الهندسية</SelectItem>
-              <SelectItem value="design">التصميم المعماري</SelectItem>
-              <SelectItem value="supervision">الإشراف على التنفيذ</SelectItem>
-              <SelectItem value="training">الدورات التدريبية</SelectItem>
+              <SelectItem value="supervision">اشراف والتطوير والتصميم</SelectItem>
+              <SelectItem value="training">الدورات</SelectItem>
               <SelectItem value="feasibility">دراسات الجدوى</SelectItem>
-              <SelectItem value="other">أخرى</SelectItem>
+              <SelectItem value="partnership">الشراكة</SelectItem>
+              <SelectItem value="other">اخر</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -215,10 +215,10 @@ export default function RegistrationForm() {
             نوع المؤسسة *
           </Label>
           <Select onValueChange={(value) => handleChange('organizationType', value)}>
-            <SelectTrigger className="text-right flex-row-reverse">
-                             <SelectValue placeholder="اختر نوع المؤسسة" className="text-right !font-normal text-gray-400" />
+            <SelectTrigger className="text-right">
+              <SelectValue placeholder="اختر نوع المؤسسة" />
             </SelectTrigger>
-            <SelectContent dir="rtl" className="w-full" align="end">
+            <SelectContent>
               <SelectItem value="company">شركة</SelectItem>
               <SelectItem value="university">جامعة</SelectItem>
               <SelectItem value="institute">معهد</SelectItem>
