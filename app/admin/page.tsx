@@ -188,6 +188,24 @@ export default function AdminDashboard() {
     return data.slice(indexOfFirstItem, indexOfLastItem)
   }
 
+  const getUsersPageData = (): User[] => {
+    const indexOfLastItem = currentPage * usersPerPage
+    const indexOfFirstItem = indexOfLastItem - usersPerPage
+    return users.slice(indexOfFirstItem, indexOfLastItem)
+  }
+
+  const getConsultationsPageData = (): ConsultationRequest[] => {
+    const indexOfLastItem = currentPage * usersPerPage
+    const indexOfFirstItem = indexOfLastItem - usersPerPage
+    return consultationRequests.slice(indexOfFirstItem, indexOfLastItem)
+  }
+
+  const getFeedbackPageData = (): Feedback[] => {
+    const indexOfLastItem = currentPage * usersPerPage
+    const indexOfFirstItem = indexOfLastItem - usersPerPage
+    return feedback.slice(indexOfFirstItem, indexOfLastItem)
+  }
+
   const getTotalPages = () => {
     return Math.ceil(getCurrentDataLength() / usersPerPage)
   }
@@ -275,7 +293,7 @@ export default function AdminDashboard() {
                          </tr>
                        </thead>
                       <tbody className="bg-white divide-y divide-gray-200">
-                        {getCurrentPageData().map((user: User, index: number) => {
+                        {getUsersPageData().map((user, index: number) => {
                           const rowNumber = (currentPage - 1) * usersPerPage + index + 1
                           
                           const serviceArabicMap: { [key: string]: string } = {
@@ -366,7 +384,7 @@ export default function AdminDashboard() {
                          </tr>
                        </thead>
                       <tbody className="bg-white divide-y divide-gray-200">
-                        {getCurrentPageData().map((request: ConsultationRequest, index: number) => {
+                        {getConsultationsPageData().map((request, index: number) => {
                           const rowNumber = (currentPage - 1) * usersPerPage + index + 1
                           
                           const consultationTypeMap: { [key: string]: string } = {
@@ -462,7 +480,7 @@ export default function AdminDashboard() {
                          </tr>
                        </thead>
                       <tbody className="bg-white divide-y divide-gray-200">
-                        {getCurrentPageData().map((item: Feedback, index: number) => {
+                        {getFeedbackPageData().map((item, index: number) => {
                           const rowNumber = (currentPage - 1) * usersPerPage + index + 1
                           
                           const feedbackTypeMap: { [key: string]: string } = {
@@ -488,9 +506,9 @@ export default function AdminDashboard() {
 
                                                      return (
                              <tr key={item.id} className="font-normal">
-                               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 w-1/7">
+                               <td className="px-6 py-4 text-sm text-gray-500 w-1/7">
                                  {item.created_at ? (
-                                   <div className="text-center">
+                                   <div className="text-right">
                                      <div className="font-medium text-gray-900">
                                        {new Date(item.created_at).toLocaleDateString('ar-LY', {
                                          year: 'numeric',
