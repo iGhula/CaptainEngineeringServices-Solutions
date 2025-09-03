@@ -448,18 +448,17 @@ export default function AdminDashboard() {
                  {feedback.length === 0 ? (
                    <div className="text-center py-8 text-gray-500">لا توجد رسائل شكاوى أو اقتراحات</div>
                  ) : (
-                   <div className="overflow-x-auto" style={{ scrollbarWidth: 'thin', scrollbarColor: '#16a34a #f3f4f6' }}>
-                     <table className="min-w-full divide-y divide-gray-200" style={{ minWidth: '1000px' }}>
+                   <div className="overflow-x-auto w-full" style={{ scrollbarWidth: 'thin', scrollbarColor: '#16a34a #f3f4f6' }}>
+                     <table className="w-full divide-y divide-gray-200 table-fixed">
                        <thead className="bg-gray-50">
                          <tr>
-                           <th className="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">تاريخ الرسالة</th>
-                           <th className="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">الحالة</th>
-                           <th className="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">الأولوية</th>
-                           <th className="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">الموضوع</th>
-                           <th className="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">نوع الرسالة</th>
-                           <th className="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">البريد الإلكتروني</th>
-                           <th className="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">الاسم الكامل</th>
-                           <th className="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">#</th>
+                           <th className="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider w-1/7">تاريخ الرسالة</th>
+                           <th className="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider w-2/7">التفاصيل</th>
+                           <th className="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider w-1/7">الموضوع</th>
+                           <th className="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider w-1/7">نوع الرسالة</th>
+                           <th className="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider w-1/7">البريد الإلكتروني</th>
+                           <th className="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider w-1/7">الاسم الكامل</th>
+                           <th className="px-6 py-3 text-center text-xs font-bold text-gray-500 uppercase tracking-wider w-1/7">#</th>
                          </tr>
                        </thead>
                       <tbody className="bg-white divide-y divide-gray-200">
@@ -489,7 +488,7 @@ export default function AdminDashboard() {
 
                                                      return (
                              <tr key={item.id} className="font-normal">
-                               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 w-1/7">
                                  {item.created_at ? (
                                    <div className="text-center">
                                      <div className="font-medium text-gray-900">
@@ -509,13 +508,28 @@ export default function AdminDashboard() {
                                    </div>
                                  ) : 'غير محدد'}
                                </td>
-                               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{statusMap[item.status] || item.status}</td>
-                               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{priorityMap[item.priority] || item.priority}</td>
-                               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{item.subject}</td>
-                               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{feedbackTypeMap[item.feedback_type] || item.feedback_type}</td>
-                               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{item.email}</td>
-                               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{item.full_name}</td>
-                               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{rowNumber}</td>
+                               <td className="px-6 py-4 text-sm text-gray-500 w-2/7">
+                                 <div className="truncate" title={item.message || ''}>
+                                   {item.message && item.message.trim() !== '' ? item.message : 'لا يوجد محتوى'}
+                                 </div>
+                               </td>
+                               <td className="px-6 py-4 text-sm text-gray-500 w-1/7">
+                                 <div className="truncate" title={item.subject || ''}>
+                                   {item.subject}
+                                 </div>
+                               </td>
+                               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 w-1/7">{feedbackTypeMap[item.feedback_type] || item.feedback_type}</td>
+                               <td className="px-6 py-4 text-sm text-gray-500 w-1/7">
+                                 <div className="truncate" title={item.email || ''}>
+                                   {item.email}
+                                 </div>
+                               </td>
+                               <td className="px-6 py-4 text-sm text-gray-900 w-1/7">
+                                 <div className="truncate" title={item.full_name || ''}>
+                                   {item.full_name}
+                                 </div>
+                               </td>
+                               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 w-1/7 text-center">{rowNumber}</td>
                              </tr>
                            )
                         })}
