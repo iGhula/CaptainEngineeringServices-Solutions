@@ -1,0 +1,32 @@
+# Environment Variables Template for Captain Engineering Services
+# Copy this content to .env.local and fill in your values
+
+# Supabase Configuration
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url_here
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key_here
+SUPABASE_SERVICE_ROLE_KEY=your_service_role_key_here
+
+# Security Settings
+DISABLE_NETWORK_DISCOVERY=true
+NEXT_TELEMETRY_DISABLED=1
+
+# Development Settings
+NODE_ENV=development
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+
+# Production Settings (for deployment)
+# NEXT_PUBLIC_APP_URL=https://your-domain.com
+
+# Optional: Analytics and Monitoring
+# NEXT_PUBLIC_GA_ID=your_google_analytics_id
+# NEXT_PUBLIC_HOTJAR_ID=your_hotjar_id
+
+# Optional: Email Configuration (if using email services)
+# SMTP_HOST=your_smtp_host
+# SMTP_PORT=587
+# SMTP_USER=your_smtp_user
+# SMTP_PASS=your_smtp_password
+
+# Security Headers (for production)
+# SECURE_HEADERS=true
+# CSP_POLICY=your_content_security_policy
